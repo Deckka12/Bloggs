@@ -1,0 +1,23 @@
+﻿@model Bloggs.Models.ViewModel.LoginViewModel
+<head>
+    <link rel="stylesheet" href="~/css/RegistrationLogin.css" asp-append-version="true" />
+</head>
+
+
+<body>
+    <div class="signupFrm ">
+        <form method="post" class="form boxShadowLogin">
+            <h1 class="title">Авторизация</h1>
+            <div class="inputContainer">
+                <label class="label" for="email" >Почта</label>
+                <input type="email" class="input" placeholder="a" id="email" name="email" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="password">Пароль</label>
+                <input type="password" class="input" placeholder="a" id="password" name="password" required>
+            </div>
+            <input type="hidden" name="returnUrl" value="https://localhost:7231" />
+            <button type="submit" class="submitBtn">Войти</button>  
+        </form>
+    </div>
+</body>

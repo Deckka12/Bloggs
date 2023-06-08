@@ -1,0 +1,38 @@
+﻿@model Bloggs.Models.ViewModel.RegisterViewModel
+<head>
+    <link rel="stylesheet" href="~/css/RegistrationLogin.css" asp-append-version="true" />
+</head>
+
+
+<body>
+    <div class="signupFrm ">
+        <form method="post" class="form boxShadow8">
+            <h1 class="title">Регистрация нового пользователя</h1>
+            <div class="inputContainer">
+                <label class="label" for="Name">Имя</label>
+                <input type="text" class="input" id="Name" name="Name" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="FirstName">Фамилия</label>
+                <input type="text" class="input" id="FirstName" name="FirstName" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="LastName">Отчество</label>
+                <input type="text" class="input" id="LastName" name="LastName" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="email">Почта</label>
+                <input type="email" class="input" id="email" name="email" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="password">Пароль</label>
+                <input type="password" class="input" id="password" name="password" required>
+            </div>
+            <div class="inputContainer">
+                <label class="label" for="password_confirm">Подтвердите пароль</label>
+                <input type="password" class="input" id="password_confirm" name="password_confirm" required>
+            </div>
+            <button type="submit" class="submitBtn">Зарегистрироваться</button>
+        </form>
+    </div>
+</body>

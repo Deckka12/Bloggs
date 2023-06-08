@@ -1,0 +1,49 @@
+﻿@model Bloggs.Models.ViewModel.ArticleAddViewModel
+
+<h2>Add New Article</h2>
+
+<form method="post" asp-action="AddArticle" asp-controller="Article">
+    <div class="field-container">
+        <label asp-for="Title">Title</label>
+        <input type="text" asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div class="field-container-content">
+        <label asp-for="Content">Content</label>
+        <textarea  asp-for="Content"></textarea>
+        <br>
+        <span asp-validation-for="Content"></span>
+    </div>
+
+    <div class="select-wrapper">
+        <label asp-for="TagIds">Tags</label>
+        <div>
+            @foreach(var tag in Model.AllTags)
+            {
+                <label>
+                    <input type="checkbox"
+                       name="TagIds"
+                       value="@tag.Id"
+                       onclick="toggleTag('@tag.Id')"
+                       @(Model.TagIds != null && Model.TagIds.Contains(tag.Id) ? "checked" : "") />
+                    @tag.Name
+                </label>
+            }
+        </div>
+        <span asp-validation-for="TagIds"></span>
+    </div>
+    <button type="submit">Create Article</button>
+</form>
+<script>
+    function toggleTag(tagId) {
+        var tagIds = document.getElementsByName("TagIds");
+        var checkedTagIds = [];
+        for (var i = 0; i < tagIds.length; i++) {
+            if (tagIds[i].checked) {
+                checkedTagIds.push(tagIds[i].value);
+            }
+        }
+        document.getElementById("TagIds").value = checkedTagIds.join(",");
+    }
+</script>
+

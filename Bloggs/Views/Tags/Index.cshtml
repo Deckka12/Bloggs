@@ -1,0 +1,19 @@
+﻿@model IEnumerable<DBContex.Models.Tag>
+
+<h1>Tags List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var tag in Model)
+        {
+            <tr>
+                <td>@tag.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

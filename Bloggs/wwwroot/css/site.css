@@ -1,0 +1,53 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+}
+
+main {
+    margin-bottom: 70px; /* добавьте отступ снизу, чтобы контент не перекрывал футер */
+}
+.btnn {
+    font-family: 'Open Sans', sans-serif; /* задаем шрифт текста кнопки */
+    font-size: 16px;
+}
+
+.btn.btn-primary.btn-sm.ml-2 {
+    background-color: #7fc7ff;
+    color: #212529;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    text-align: left; /* чтобы текст кнопки был выровнен по левому краю */
+    padding-left: 15px;
+    font-family: 'Open Sans', sans-serif; /* задаем шрифт текста кнопки */
+    font-size: 16px;
+}
+
+    .btn.btn-primary.btn-sm.ml-2:hover,
+    .btn.btn-primary.btn-sm.ml-2:focus {
+        background-color: #00bfff;
+        color: #1e2125;
+        box-shadow: none;
+    }
+
+

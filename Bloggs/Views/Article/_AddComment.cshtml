@@ -1,0 +1,48 @@
+﻿@model Bloggs.Models.ViewModel.AddCommentViewModel
+
+@using(Html.BeginForm("AddComment", "Article", FormMethod.Post, new { @class = "comment-form" }))
+{
+    @Html.HiddenFor(m => m.Id, Model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content, new { @class = "control-label" })
+        @Html.TextAreaFor(m => m.Content, new { @class = "form-control", rows = 5 })
+        @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary add-comment-btn">Add Comment</button>
+
+    <div class="alert alert-success comment-success" style="display:none;">
+        Your comment has been added successfully.
+    </div>
+}
+
+@section scripts {
+    $(function() {
+        $('.comment-form').submit(function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var btn = form.find('.add-comment-btn');
+            var successMessage = form.find('.comment-success');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                beforeSend: function() {
+                    form.addClass('loading');
+                    btn.attr('disabled', 'disabled');
+                },
+                success: function(data) {
+                    successMessage.fadeIn(500);
+                    form[0].reset();
+                },
+                complete: function() {
+                    form.removeClass('loading');
+                    btn.removeAttr('disabled');
+                }
+            });
+        });
+    });
+}
