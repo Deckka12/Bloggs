@@ -14,6 +14,8 @@ namespace Bloggs.Controllers
     using System.Security.Claims;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Authorization;
+    using System.Data;
 
     public class ArticleController : Controller
     {
@@ -122,7 +124,7 @@ namespace Bloggs.Controllers
             return View(vm);
         }
 
-        
+
 
         //[HttpGet]
         //public IActionResult Edit (int id) {
@@ -139,6 +141,7 @@ namespace Bloggs.Controllers
         //}
 
         [HttpPost]
+        [Authorize(Roles = "Администратор")]
         public IActionResult Edit (ArticleViewModel vm) {
                 var article = _articleRepository.GetPostById(vm.Id);
 
