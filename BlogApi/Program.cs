@@ -21,17 +21,27 @@ namespace BlogApi
             builder.Services.AddTransient<ICommentRepository, CommentRepository>();
             builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HomeApi", Version = "v1" }); }); 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            app.UseSwagger();
-            app.UseSwaggerUI();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-          
-            app.MapControllers();
+            
+                app.MapControllers();
+            
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HomeApi v1"));
+            
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+
+            // Сопоставляем маршруты с контроллерами
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.Run();
         }

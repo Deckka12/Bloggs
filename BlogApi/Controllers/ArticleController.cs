@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BlogApi.Controllers
 {
     [ApiController]
-    [Authorize]
-    [Route("api/[controller]")]
+
+    [Route("[controller]")]
     public class ArticleController : ControllerBase
     {
         private readonly IArticleRepository _articleRepository;
@@ -27,13 +27,9 @@ namespace BlogApi.Controllers
         // GET api/article
         [AllowAnonymous]
         [HttpGet]
+        [Route("")]
         public async Task<IEnumerable<Article>> Get () {
             return  _context.Articles.Include(a => a.Author).Include(a => a.Tags).ToList();
-
-
-
-
-
         }
 
     }

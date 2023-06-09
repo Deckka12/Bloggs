@@ -53,5 +53,5 @@ app.UseEndpoints(endpoints =>
         pattern: "Users/Logout",
         defaults: new { controller = "Users", action = "Logout" });
 });
-
+app.UseExceptionHandler("/Home/Error");
 app.Run();
