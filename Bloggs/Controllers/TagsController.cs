@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DBContex.Repository;
+using DBContex.Models;
 
 namespace Bloggs.Controllers
 {
@@ -15,7 +16,28 @@ namespace Bloggs.Controllers
             var tags = _tagRepository.GetAllTags();
             return View(tags);
         }
+        public IActionResult Index(int id)
+        {
+            var tags = _tagRepository.GetTagById(id);
+            return View(tags);
+        }
+        public IActionResult Edit(Tag tag)
+        {
+            _tagRepository.UpdateTag(tag);
+            return View();
+        }
 
+        public IActionResult Delete(int id)
+        {
+            _tagRepository.DeleteTag(id);
+            return View();
+        }
+
+        public IActionResult Delete(Tag tag)
+        {
+            _tagRepository.AddTag(tag);
+            return View();
+        }
         // ...
     }
 }

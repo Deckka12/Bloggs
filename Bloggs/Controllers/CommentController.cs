@@ -18,6 +18,13 @@ namespace Bloggs.Controllers
             return View(comments);
         }
 
+        public IActionResult Comments(int ID)
+        {
+            var comments = _commentRepository.GetCommentById(ID);
+
+            return View(comments);
+        }
+
         public IActionResult Create (int postId) {
             ViewBag.PostId = postId;
             return View();

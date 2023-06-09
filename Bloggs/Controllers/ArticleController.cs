@@ -172,5 +172,12 @@ namespace Bloggs.Controllers
 
             return View(vm);
         }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _articleRepository.DeletePost(id);
+
+            return View();
+        }
     }
 }
