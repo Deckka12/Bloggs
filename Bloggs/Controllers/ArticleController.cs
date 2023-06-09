@@ -122,28 +122,7 @@ namespace Bloggs.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        public IActionResult AddComment (AddCommentViewModel comment) {
-            if(ModelState.IsValid)
-            {
-                var article = _articleRepository.GetPostById(comment.Id);
-                var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var newComment = new Comment
-                {
-                    ArticleId = comment.Id,
-                    Article = article,
-                    Text = comment.Content,
-                    PublicationDate = DateTime.Now,
-                    AuthorId = userIdStr,
-                };
-
-                _commentRepository.AddComment(newComment);
-
-                return RedirectToAction("Edit", new { id = comment.Id });
-            }
-
-            return View(comment);
-        }
+        
 
         //[HttpGet]
         //public IActionResult Edit (int id) {

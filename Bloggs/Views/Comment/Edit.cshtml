@@ -1,0 +1,10 @@
+﻿@model DBContex.Models.Comment
+@using (Html.BeginForm("Edit", "Comment", FormMethod.Post, new { @class = "comment-form" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text, new { @class = "control-label" })
+        @Html.TextAreaFor(m => m.Text, new { @class = "form-control", rows = 5 })
+    </div>
+    <button type="submit" class="btn btn-primary add-comment-btn">Изменить</button>
+}

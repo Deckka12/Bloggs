@@ -1,10 +1,8 @@
-﻿using DBContex.Repository;
+﻿using Bloggs.Models.ViewModel;
+using DBContex.Models;
+using DBContex.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Bloggs.Models.ViewModel;
-using DBContex.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Bloggs.Controllers
 {
@@ -124,5 +122,47 @@ namespace Bloggs.Controllers
             // перенаправление на домашнюю страницу
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> Edit(string userId)
+        {
+
+            var user = await userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var userRoles = await userManager.GetRolesAsync(user);
+                var allRoles = roleManager.Roles.ToList();
+                ChangeRoleViewModel model = new ChangeRoleViewModel
+                {
+                    UserId = userId,
+                    UserEmail = user.Email,
+                    UserRoles = userRoles,
+                    AllRoles = allRoles
+                };
+                return View(model);
+            }
+
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(string userId, List<string> roles)
+        {
+            User user = await userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var userRoles = await userManager.GetRolesAsync(user);
+                var allRoles = roleManager.Roles.ToList();
+                var addedRoles = roles.Except(userRoles);
+                var removedRoles = userRoles.Except(roles);
+
+                await userManager.AddToRolesAsync(user, addedRoles);
+
+                await userManager.RemoveFromRolesAsync(user, removedRoles);
+
+                return RedirectToAction("UserList");
+            }
+
+            return NotFound();
+        }
     }
 }
+

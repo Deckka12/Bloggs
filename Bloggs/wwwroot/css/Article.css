@@ -362,3 +362,55 @@ table.table_adaptive {
                 font-weight: bold;
             }
 }
+
+
+
+.comments-container {
+    display: flex;
+    align-items: center;
+}
+
+.comment-img {
+    margin-right: 10px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #c8d4e0;
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+}
+
+.comment-content {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.button-edit-remove {
+    display: flex;
+    margin-left: auto;
+}
+
+.buttons-container {
+    display: flex;
+}
+
+.btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ccc;
+    margin-right: 10px;
+}
+
+.fa-pencil-alt {
+    color: #1E90FF;
+}
+
+.fa-trash {
+    color: #FF6666;
+}

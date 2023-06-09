@@ -40,5 +40,10 @@ namespace DBContex.Repository
             _dbContext.Articles.Remove(post);
             _dbContext.SaveChanges();
         }
+
+        public Article GetPostByIdComment(int id)
+        {
+            return _dbContext.Articles.Include(a => a.Author).Include(a => a.Tags).Include(a => a.Comments).FirstOrDefault(p => p.Comments.Any(x=>x.Id == id));
+        }
     }
 }

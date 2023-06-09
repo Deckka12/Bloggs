@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Bloggs.Models.ViewModel.CommentViewModel>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /
+</head>
+
+@foreach (var comment in Model)
+{
+    <div class="comments-container">
+        <div class="comment-img">
+            <img src="https://cdn.icon-icons.com/icons2/316/PNG/128/Cool-Male-Avatars-03_34322.png" alt="comment-image" />
+        </div>
+        <div class="comment">
+            <div class="comment-content">
+                <p>@comment.Content</p>
+                <p class="comment-meta">@comment.AuthorName &middot; @comment.CreatedAt.ToShortDateString()</p>
+            </div>
+            <div class="button-edit-remove">
+                <div class="buttons-container">
+                    @if (User.IsInRole("Администратор"))
+                    {
+                        <form method="post" asp-action="Comments" asp-controller="Comment">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
+                        </form>
+                        <form method="post" asp-action="Delete" asp-controller="Comment">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

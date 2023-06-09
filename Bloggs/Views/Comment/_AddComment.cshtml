@@ -1,6 +1,6 @@
 ﻿@model Bloggs.Models.ViewModel.AddCommentViewModel
 
-@using(Html.BeginForm("AddComment", "Article", FormMethod.Post, new { @class = "comment-form" }))
+@using (Html.BeginForm("AddComment", "Comment", FormMethod.Post, new { @class = "comment-form" }))
 {
     @Html.HiddenFor(m => m.Id, Model.Id)
 

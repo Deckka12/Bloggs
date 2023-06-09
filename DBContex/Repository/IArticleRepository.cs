@@ -7,6 +7,7 @@ namespace DBContex.Repository
     {
         IEnumerable<Article> GetAllPosts ();
         Article GetPostById (int id);
+        Article GetPostByIdComment (int id);
         void AddPost (Article post);
         void UpdatePost (Article post);
         void DeletePost (int id);
