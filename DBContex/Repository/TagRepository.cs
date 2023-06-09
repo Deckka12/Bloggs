@@ -24,7 +24,9 @@ namespace DBContex.Repository
         }
 
         public void UpdateTag (Tag tag) {
-            _dbContext.Tags.Update(tag);
+            var tags = _dbContext.Tags.Find(tag.Id);
+            tags.Name = tag.Name;
+            _dbContext.Tags.Update(tags);
             _dbContext.SaveChanges();
         }
 

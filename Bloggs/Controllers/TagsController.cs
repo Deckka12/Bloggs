@@ -16,15 +16,29 @@ namespace Bloggs.Controllers
             var tags = _tagRepository.GetAllTags();
             return View(tags);
         }
-        public IActionResult Index(int id)
+        //public IActionResult Index(int id)
+        //{
+        //    var tags = _tagRepository.GetTagById(id);
+        //    return View(tags);
+        //}
+        [HttpGet]
+        public IActionResult Edit(int tag)
         {
-            var tags = _tagRepository.GetTagById(id);
-            return View(tags);
+            return View(_tagRepository.GetTagById(tag));
         }
+        [HttpPost]
         public IActionResult Edit(Tag tag)
         {
+          
             _tagRepository.UpdateTag(tag);
-            return View();
+            return View("index", _tagRepository.GetAllTags());
+        }
+
+        public IActionResult Add(string tagName)
+        {
+            var tag = new Tag { Name = tagName };
+            _tagRepository.AddTag(tag);
+            return View("index",_tagRepository.GetAllTags());
         }
 
         public IActionResult Delete(int id)
@@ -33,11 +47,6 @@ namespace Bloggs.Controllers
             return View();
         }
 
-        public IActionResult Delete(Tag tag)
-        {
-            _tagRepository.AddTag(tag);
-            return View();
-        }
-        // ...
+        
     }
 }
