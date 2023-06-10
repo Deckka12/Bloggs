@@ -1,4 +1,5 @@
 ﻿using DBContex.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DBContex.Repository
 {
@@ -31,7 +32,7 @@ namespace DBContex.Repository
         }
 
         public void DeleteTag (int id) {
-            var tag = GetTagById(id);
+            var tag = _dbContext.Tags.Include(x=>x.Articles).FirstOrDefault(x=>x.Id == id);
             _dbContext.Tags.Remove(tag);
             _dbContext.SaveChanges();
         }

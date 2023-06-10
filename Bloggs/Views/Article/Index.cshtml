@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<DBContex.Models.Article>
 @using Microsoft.AspNetCore.Mvc.Rendering;
+@using Microsoft.AspNetCore.Http;
 
 
 @{
     ViewBag.Title = "Статьи";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var tags = ViewBag.TagsList;
+    Dictionary<string, bool> teggss = ViewBag.TagsList;
 
 }
 <head>
@@ -40,18 +41,27 @@
     <script>
         function getSelectedTags() {
             var selectedTags = [];
-            var checkboxes = document.getElementsByName("tagFilters");// Получаем все чекбоксы
+            var checkboxes = document.getElementById('elem');// Получаем все чекбоксы
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {// Если чекбокс отмечен, добавляем его значение в массив selectedTags
                     selectedTags.push(checkboxes[i].value);
                 }
             }
+            document.getElementById('tegg').value = selectedTags.join(','); // Добавляем выбранные теги в скрытое поле
             return selectedTags;
         }
+        function setTegg() {
+            var teggField = document.getElementById('tegg');
+            var links = document.querySelectorAll('.pagination a');
+            for (var i = 0; i < links.length; i++) {
+                links[i].href = links[i].href.replace(/tagFilters=([^&]*)/, 'tagFilters=' + teggField.value);
+            }
+        }
+        setTegg();
     </script>
 </head>
 
-@using(Html.BeginForm("Index", "Article", FormMethod.Post))
+@using(Html.BeginForm("Index", "Article", FormMethod.Get))
 {
     <h1>Articles</h1>
     <div class="form-group">
@@ -61,28 +71,28 @@
             {
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="tagFilters[@tag.Key]" value="@tag.Value" @(tag.Value ? "checked" : "") /> @tag.Key
+                        <input type="checkbox" id="elem" name="tagFilters[@tag.Key]" value="true" @(tag.Value ? "checked" : "") /> @tag.Key
                     </label>
                 </div>
             }
         </div>
         <button type="submit" class="btn btn-primary"
-            onclick="document.getElementById('tags').value = getSelectedTags().join(',');">
-            Apply Filter
+                onclick="document.getElementById('tegg').value = getSelectedTags().join(',');">
+            Применить фильтр
         </button>
         <a href="@Url.Action("Index", "Article")" class="btn btn-secondary">Clear Filters</a>
     </div>
-    <input type="hidden" name="tags" id="tags" value="" /> <!-- Отправляем список выбранных тегов в скрытом поле -->
+    <input type="hidden" name="tegg" id="tegg" value="" /> <!-- Отправляем список выбранных тегов в скрытом поле -->
 }
 <a href="@Url.Action("AddArticle", "Article")" class="btn btn-secondary Article">Создать статью</a>
 <table class="table ">
     <thead>
         <tr class="classth">
-            <th>Title</th>
-            <th>Content</th>
-            <th>Publication Date</th>
-            <th>Author</th>
-            <th>Tags</th>
+            <th>Тема</th>
+            <th>Описание</th>
+            <th>Дата публикации</th>
+            <th>Автор</th>
+            <th>Теги</th>
         </tr>
     </thead>
     <tbody>
@@ -122,7 +132,7 @@
 
         @if(ViewBag.CurrentPage > 1)
         {
-        <a href="@Url.Action("Index", "Article", new {tagFilters = @tags, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
+        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize, tegg = @Request.Query["tegg"]})@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
         }
 
         @for(var i = 1; i <= ViewBag.TotalPages; i++)
@@ -134,14 +144,14 @@
             else
             {
 
-            <a href="@Url.Action("Index", "Article", new {tagFilters = @tags, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
+            <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
                 
             }
         }
 
         @if(ViewBag.CurrentPage < ViewBag.TotalPages)
         {
-        <a href="@Url.Action("Index", "Article", new {tagFilters = @tags, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize})@(ViewContext.HttpContext.Request.QueryString)">Next</a>
+        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize})@(ViewContext.HttpContext.Request.QueryString)">Next</a>
             
         }
     </div>

@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using DBContex.Repository;
 using DBContex.Models;
+using Microsoft.AspNetCore.Identity;
+using Bloggs.Models.ViewModel;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using Bloggs.Services;
+using System.Diagnostics;
 
 namespace Bloggs.Controllers
 {
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Linq;
-    using Bloggs.Models;
-    using Bloggs.Models.ViewModel;
-    using System.Security.Claims;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.AspNetCore.Authorization;
-    using System.Data;
+
 
     public class ArticleController : Controller
     {
@@ -23,51 +19,34 @@ namespace Bloggs.Controllers
         private readonly ICommentRepository _commentRepository;
         private readonly UserManager<User> _userManager;
         private readonly ITagRepository _tagRepository;
-        public ArticleController (IArticleRepository articleRepository, ITagRepository tagRepository, ICommentRepository commentRepository) {
+        private readonly IArticleServices _articleServices;
+        public ArticleController(IArticleRepository articleRepository, ITagRepository tagRepository, ICommentRepository commentRepository, IArticleServices articleServices)
+        {
             this._articleRepository = articleRepository;
             this._tagRepository = tagRepository;
             _commentRepository = commentRepository;
+            _articleServices = articleServices;
+        }
+
+
+        [HttpGet]
+        public IActionResult Index(Dictionary<string, bool> tagFilters, int page = 1, int pageSize = 10)
+        {
+            int totalArticles = 0;
+            Dictionary<string, bool> tagFilter;
+            IEnumerable<Article> article = _articleServices.Articles(tagFilters, page, pageSize, out totalArticles, out tagFilter); ;
+            ViewBag.Tags = tagFilters != null ? string.Join(",", tagFilters.Where(x => x.Value).Select(x => x.Key)) : null;
+            ViewBag.TagsList = tagFilter;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
+            return View(article.ToList());
+
         }
 
         [HttpGet]
-        public IActionResult Index (Dictionary<string, bool> tagFilters, int page = 1, int pageSize = 10) {
-            var articles = _articleRepository.GetAllPosts().Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key && tf.Value)))
-                    .Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key)))
-                .OrderByDescending(a => a.PublicationDate)
-                .Skip(( page - 1 ) * pageSize)
-                .Take(pageSize);
-          
-            if(tagFilters != null && tagFilters.Any())
-            {
-                var totalArticles = _articleRepository.GetAllPosts().Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key && tf.Value)))
-                    .Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key))).Count();
-                ViewBag.CurrentPage = page;
-                ViewBag.PageSize = pageSize;
-                ViewBag.Tags = tagFilters != null ? string.Join(",", tagFilters.Where(x => x.Value).Select(x => x.Key)) : null;
-                ViewBag.TagsList = _tagRepository.GetAllTags()
-    .ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]);
-                ViewBag.TotalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
-
-                return View(articles.ToList());
-
-            }
-            else
-            {
-                var totalArticles = _articleRepository.GetAllPosts().Count();
-                ViewBag.CurrentPage = page;
-                ViewBag.PageSize = pageSize;
-                ViewBag.Tags = tagFilters != null ? string.Join(",", tagFilters.Where(x => x.Value).Select(x => x.Key)) : null;
-                ViewBag.TagsList = _tagRepository.GetAllTags()
-        .ToDictionary(t => t.Name, t => tagFilters?.GetValueOrDefault(t.Name) ?? false);
-                ViewBag.TotalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
-
-                return View(articles.ToList());
-            }
-            
-        }
-
-        [HttpGet]
-        public IActionResult AddArticle () {
+        public IActionResult AddArticle()
+        {
             var model = new ArticleAddViewModel
             {
                 AllTags = _tagRepository.GetAllTags().ToList()
@@ -76,12 +55,13 @@ namespace Bloggs.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddArticle (ArticleAddViewModel add) {
+        public async Task<IActionResult> AddArticle(ArticleAddViewModel add)
+        {
             add.AllTags = _tagRepository.GetAllTags().ToList();
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var Tags = new List<Tag>();
-                foreach(var tag in add.TagIds)
+                foreach (var tag in add.TagIds)
                 {
                     Tags.Add(_tagRepository.GetTagById(tag));
                 }
@@ -100,7 +80,8 @@ namespace Bloggs.Controllers
         }
 
 
-        public IActionResult Edit (int id) {
+        public IActionResult Edit(int id)
+        {
             var article = _articleRepository.GetPostById(id);
             var comments = _commentRepository.GetCommentsByPostId(id);
 
@@ -142,17 +123,16 @@ namespace Bloggs.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Администратор")]
-        public IActionResult Edit (ArticleViewModel vm) {
-                var article = _articleRepository.GetPostById(vm.Id);
+        public IActionResult Edit(ArticleViewModel vm)
+        {
+            var article = _articleRepository.GetPostById(vm.Id);
 
-                article.Title = vm.Title;
-                article.Content = vm.Content;
+            article.Title = vm.Title;
+            article.Content = vm.Content;
 
-                _articleRepository.UpdatePost(article);
+            _articleRepository.UpdatePost(article);
 
-                return RedirectToAction("Edit", new { id = article.Id });
-
-            return View(vm);
+            return RedirectToAction("Edit", new { id = article.Id });
         }
         [HttpPost]
         public IActionResult Delete(int id)

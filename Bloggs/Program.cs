@@ -1,5 +1,6 @@
 using DBContex.Models;
 using DBContex.Repository;
+using Bloggs.Services;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
+builder.Services.AddTransient<IArticleServices, ArticleServices>();
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();

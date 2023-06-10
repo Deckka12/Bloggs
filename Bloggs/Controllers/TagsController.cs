@@ -44,7 +44,7 @@ namespace Bloggs.Controllers
         public IActionResult Delete(int id)
         {
             _tagRepository.DeleteTag(id);
-            return View();
+            return View("index", _tagRepository.GetAllTags());
         }
 
         
