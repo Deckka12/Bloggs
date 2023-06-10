@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<DBContex.Models.Article>
 @using Microsoft.AspNetCore.Mvc.Rendering;
-@using Microsoft.AspNetCore.Http;
 
 
 @{
@@ -132,7 +131,7 @@
 
         @if(ViewBag.CurrentPage > 1)
         {
-        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize, tegg = @Request.Query["tegg"]})@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
+        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
         }
 
         @for(var i = 1; i <= ViewBag.TotalPages; i++)
