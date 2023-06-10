@@ -14,7 +14,7 @@ namespace DBContex.Models
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlServer(@"Server=KOMPUTER;Database=Blog1;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-T63JNGU\SQLEXPRESS;Database=Blog1;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=True;");
         }
         public Context (DbContextOptions<Context> options)
             : base(options) {

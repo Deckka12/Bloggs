@@ -416,6 +416,8 @@ table.table_adaptive {
 }
 
 .Article {
-    margin-top: 20px;
-    margin-left: 14px;
+    margin-top: 2px;
+    float:right;
+    margin-bottom: 3px;
+
 }

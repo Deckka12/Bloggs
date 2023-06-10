@@ -7,6 +7,7 @@ namespace DBContex.Repository
         IEnumerable<Tag> GetAllTags ();
         Tag GetTagById (int id);
         void AddTag (Tag tag);
+        Tag GetTahByName(string name);
         void UpdateTag (Tag tag);
         void DeleteTag (int id);
     }

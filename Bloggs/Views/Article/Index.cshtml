@@ -6,6 +6,7 @@
     ViewBag.Title = "Статьи";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Dictionary<string, bool> teggss = ViewBag.TagsList;
+ 
 
 }
 <head>
@@ -50,13 +51,15 @@
             return selectedTags;
         }
         function setTegg() {
-            var teggField = document.getElementById('tegg');
-            var links = document.querySelectorAll('.pagination a');
-            for (var i = 0; i < links.length; i++) {
-                links[i].href = links[i].href.replace(/tagFilters=([^&]*)/, 'tagFilters=' + teggField.value);
-            }
+            var tagFilters = document.getElementById("tegg").value;
+            var url = '@Url.Action("Index", "Article", new {tagFilters = "__TAGFILTERS__", page = "__PAGE__", pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)';
+
+            url = url.replace("__TAGFILTERS__", tagFilters);
+            url = url.replace("__PAGE__", i);
+
+            window.location.href = url;
         }
-        setTegg();
+
     </script>
 </head>
 
@@ -143,7 +146,7 @@
             else
             {
 
-            <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
+            <a onclick="setTegg();" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
                 
             }
         }

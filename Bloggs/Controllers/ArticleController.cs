@@ -84,7 +84,7 @@ namespace Bloggs.Controllers
         {
             var article = _articleRepository.GetPostById(id);
             var comments = _commentRepository.GetCommentsByPostId(id);
-
+            Dictionary<string,bool> tagFilters = article.Tags.ToDictionary(t => t.Name, t=>true);
             var vm = new ArticleViewModel
             {
                 Id = article.Id,
@@ -99,7 +99,9 @@ namespace Bloggs.Controllers
                     Content = c.Text,
                     CreatedAt = c.PublicationDate,
                     AuthorName = c.Author.UserName
-                }).ToList()
+                }).ToList(),
+                tags = _tagRepository.GetAllTags().
+                ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]),
             };
 
             return View(vm);
@@ -122,14 +124,20 @@ namespace Bloggs.Controllers
         //}
 
         [HttpPost]
-        [Authorize(Roles = "Администратор")]
+        //[Authorize(Roles = "Администратор")]
         public IActionResult Edit(ArticleViewModel vm)
         {
             var article = _articleRepository.GetPostById(vm.Id);
 
             article.Title = vm.Title;
             article.Content = vm.Content;
-
+            var Tags = new List<Tag>();
+            foreach (var tag in vm.tags)
+            {
+                //if (tag.Value)
+                    Tags.Add(_tagRepository.GetTahByName(tag.Key));
+            }
+            article.Tags = Tags;
             _articleRepository.UpdatePost(article);
 
             return RedirectToAction("Edit", new { id = article.Id });

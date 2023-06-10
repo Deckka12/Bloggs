@@ -1,28 +1,37 @@
 ﻿@model Bloggs.Models.ViewModel.ArticleViewModel
 
-<h2>@Model.Title</h2>
-
-<p class="perenos">@Model.Content</p>
-
-<h3>Edit Article</h3>
-@using(Html.BeginForm("Edit", "Article", FormMethod.Post))
+@if (!User.IsInRole("Пользователь"))
 {
-    @Html.HiddenFor(m => m.Id)
-
-    <div class="form-group">
-        <label for="title">Title:</label>
-        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label for="content">Content:</label>
-        @Html.TextAreaFor(m => m.Content, new { @class = "form-control", rows = 10 })
-    </div>
-
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <h2><strong>Тема: </strong><br />@Model.Title</h2>
+    <h2><strong>Описание: </strong></h2>
+    <p class="perenos">@Model.Content</p>
+}
+else{
+    <h3>Изменить статью</h3>
+    @using (Html.BeginForm("Edit", "Article", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group">
+            <label for="title">Title:</label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            @Html.TextAreaFor(m => m.Content, new { @class = "form-control", rows = 10 })
+        </div>
+        @foreach (var tag in Model.tags)
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="tags[@tag.Key]" value="@tag.Value" @(tag.Value ? "checked" : "") /> @tag.Key
+                </label>
+            </div>
+        }
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    }
 }
 
-<h3>Add Comment</h3>
+<h3>Добавить комментарий</h3>
 
 @Html.Partial("../Comment/_AddComment", Model.AddNewComment)
 

@@ -36,5 +36,10 @@ namespace DBContex.Repository
             _dbContext.Tags.Remove(tag);
             _dbContext.SaveChanges();
         }
+
+        public Tag GetTahByName(string name)
+        {
+            return _dbContext.Tags.FirstOrDefault(x=>x.Name == name);
+        }
     }
 }
