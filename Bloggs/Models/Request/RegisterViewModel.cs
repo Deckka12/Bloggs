@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Request
 {
     public class RegisterViewModel
     {

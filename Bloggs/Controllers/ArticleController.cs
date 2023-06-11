@@ -2,12 +2,12 @@
 using DBContex.Repository;
 using DBContex.Models;
 using Microsoft.AspNetCore.Identity;
-using Bloggs.Models.ViewModel;
+using Bloggs.Models.Request;
+using Bloggs.Models.Response;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Bloggs.Services;
-using System.Diagnostics;
+
 
 namespace Bloggs.Controllers
 {

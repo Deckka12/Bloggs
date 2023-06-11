@@ -50,16 +50,6 @@
             document.getElementById('tegg').value = selectedTags.join(','); // Добавляем выбранные теги в скрытое поле
             return selectedTags;
         }
-        function setTegg() {
-            var tagFilters = document.getElementById("tegg").value;
-            var url = '@Url.Action("Index", "Article", new {tagFilters = "__TAGFILTERS__", page = "__PAGE__", pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)';
-
-            url = url.replace("__TAGFILTERS__", tagFilters);
-            url = url.replace("__PAGE__", i);
-
-            window.location.href = url;
-        }
-
     </script>
 </head>
 
@@ -134,7 +124,7 @@
 
         @if(ViewBag.CurrentPage > 1)
         {
-        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
+        <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
         }
 
         @for(var i = 1; i <= ViewBag.TotalPages; i++)
@@ -146,14 +136,14 @@
             else
             {
 
-            <a onclick="setTegg();" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
+            <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
                 
             }
         }
 
         @if(ViewBag.CurrentPage < ViewBag.TotalPages)
         {
-        <a onclick="setTegg()" href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize})@(ViewContext.HttpContext.Request.QueryString)">Next</a>
+        <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize})@(ViewContext.HttpContext.Request.QueryString)">Next</a>
             
         }
     </div>

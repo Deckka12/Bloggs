@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DBContex.Models;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Request
 {
     public class ArticleAddViewModel
     {

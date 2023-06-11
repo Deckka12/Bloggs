@@ -1,9 +1,10 @@
-﻿using DBContex.Models;
+﻿using Bloggs.Models.Request;
+using DBContex.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Response
 {
     public class ArticleViewModel
     {
@@ -23,13 +24,14 @@ namespace Bloggs.Models.ViewModel
 
         public CommentViewModel NewComment { get; set; }
         public AddCommentViewModel AddNewComment { get; set; }
-        public Dictionary<string,bool> tags { get; set; }
+        public Dictionary<string, bool> tags { get; set; }
 
-        public ArticleViewModel () {
+        public ArticleViewModel()
+        {
             Comments = new List<CommentViewModel>();
             NewComment = new CommentViewModel();
             AddNewComment = new AddCommentViewModel();
-            
+
         }
     }
 }

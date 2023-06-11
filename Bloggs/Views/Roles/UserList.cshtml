@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DBContex.Models;
-@model Bloggs.Models.ViewModel.ChangeRoleViewModels
+@using Bloggs.Models.Response;
+@model ChangeRoleViewModels
 @inject UserManager<DBContex.Models.User> UserManager;
 <h2>Список пользователей</h2>
 <table class="table">

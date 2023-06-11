@@ -2,6 +2,7 @@ using DBContex.Models;
 using DBContex.Repository;
 using Bloggs.Services;
 using Microsoft.AspNetCore.Identity;
+using Bloggs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,14 +16,18 @@ builder.Services.AddTransient<ITagRepository, TagRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
 builder.Services.AddTransient<IArticleServices, ArticleServices>();
+builder.Services.AddTransient<IUserServices, UserServices>();
+// ƒобавл€ем PasswordHasher как сервис
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// ƒобавл€ем PasswordValidator как сервис
+builder.Services.AddScoped<PasswordValidator<User>>();
 
 builder.Services.AddControllersWithViews();
+
+
+
 var app = builder.Build();
-//string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// добавл€ем контекст ApplicationContext в качестве сервиса в приложение
-
-
 // Configure the HTTP request pipeline.
 if(!app.Environment.IsDevelopment())
 {
@@ -37,6 +42,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.UseEndpoints(endpoints =>
 {

@@ -1,8 +1,10 @@
-﻿using Bloggs.Models.ViewModel;
+﻿using Bloggs.Models.Request;
+using Bloggs.Models.Response;
 using DBContex.Models;
 using DBContex.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bloggs.Controllers
 {
@@ -12,8 +14,6 @@ namespace Bloggs.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly IUserRepository _userRepository;
         private readonly RoleManager<IdentityRole> roleManager;
-
-
 
         public UsersController(IUserRepository userRepository, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
@@ -25,26 +25,19 @@ namespace Bloggs.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = userManager.Users.ToList();
-            if (users != null)
+            var users = await userManager.Users.ToListAsync();
+            var allRoles = await roleManager.Roles.ToListAsync();
+            var model = new ChangeRoleViewModels()
             {
-                ChangeRoleViewModels model = new ChangeRoleViewModels();
-                foreach (var user2 in users)
-                {
-                    var userRoles = await userManager.GetRolesAsync(user2);
-                    var allRoles = roleManager.Roles.ToList();
-                    model = new ChangeRoleViewModels()
-                    {
-                        User = users,
-                        UserRoles = userRoles,
-                        AllRoles = allRoles
-                    };
-                }
-
-                return View(model);
+                User = users,
+                AllRoles = allRoles
+            };
+            foreach (var user in users)
+            {
+                var userRoles = await userManager.GetRolesAsync(user);
+                model.UserRoles.Add(userRoles.ToString());
             }
-
-            return NotFound();
+            return View(model);
         }
         [HttpGet]
         public IActionResult Register()
@@ -124,46 +117,6 @@ namespace Bloggs.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> Edit(string userId)
-        {
-
-            var user = await userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var userRoles = await userManager.GetRolesAsync(user);
-                var allRoles = roleManager.Roles.ToList();
-                ChangeRoleViewModel model = new ChangeRoleViewModel
-                {
-                    UserId = userId,
-                    UserEmail = user.Email,
-                    UserRoles = userRoles,
-                    AllRoles = allRoles
-                };
-                return View(model);
-            }
-
-            return NotFound();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Edit(string userId, List<string> roles)
-        {
-            User user = await userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var userRoles = await userManager.GetRolesAsync(user);
-                var allRoles = roleManager.Roles.ToList();
-                var addedRoles = roles.Except(userRoles);
-                var removedRoles = userRoles.Except(roles);
-
-                await userManager.AddToRolesAsync(user, addedRoles);
-
-                await userManager.RemoveFromRolesAsync(user, removedRoles);
-
-                return RedirectToAction("UserList");
-            }
-
-            return NotFound();
-        }
     }
 }
 

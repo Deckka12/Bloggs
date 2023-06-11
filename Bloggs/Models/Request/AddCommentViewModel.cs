@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Request
 {
     public class AddCommentViewModel
     {
@@ -9,6 +9,6 @@ namespace Bloggs.Models.ViewModel
         [Required(ErrorMessage = "Поле комментария не может быть пустым")]
         public string Content { get; set; }
 
-      
+
     }
 }

@@ -1,8 +1,8 @@
-﻿using Bloggs.Models.ViewModel;
+﻿using Bloggs.Models.Request;
+using Bloggs.Models.Response;
 using DBContex.Models;
 using DBContex.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.Design;
 using System.Security.Claims;
 
 namespace Bloggs.Controllers

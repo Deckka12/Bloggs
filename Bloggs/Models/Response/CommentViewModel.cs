@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Response
 {
     public class CommentViewModel
     {

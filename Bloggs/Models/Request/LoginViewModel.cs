@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Request
 {
     public class LoginViewModel
     {
         [Required]
         [Display(Name = "Почта")]
         public string Email { get; set; }
-      
+
         [Required]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

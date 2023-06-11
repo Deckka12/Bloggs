@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DBContex.Models;
-@model Bloggs.Models.ViewModel.ChangeRoleViewModels
+    @using Bloggs.Models.Response;
+@model ChangeRoleViewModels
 @inject UserManager<DBContex.Models.User> UserManager;
 <h2>Список пользователей</h2>
 <table class="table">
@@ -26,7 +27,7 @@
                     }
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="Roles" asp-route-userid="@user.Id">Права доступа</a>
                 </td>
             </tr>
         }

@@ -2,18 +2,22 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DBContex.Models;
-using Bloggs.Models.ViewModel;
+using Bloggs.Services;
+using Bloggs.Models.Request;
+using Bloggs.Models.Response;
 
 namespace WebAutoSHop.Controllers
 {
 
     public class RolesController : Controller
     {
-        RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> _roleManager;
-        UserManager<User> _userManager;
-        public RolesController (RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager, UserManager<User> userManager) {
+        private readonly RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserServices _userServices;
+        public RolesController (RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager, UserManager<User> userManager, IUserServices userServices) {
             _roleManager = roleManager;
             _userManager = userManager;
+            _userServices = userServices;
         }
         public IActionResult Index () => View(_roleManager.Roles.ToList());
 
@@ -95,45 +99,14 @@ namespace WebAutoSHop.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Edit (string userId, List<string> roles,ChangeRoleViewModel changeRoleView) {
-            User user = await _userManager.FindByIdAsync(userId);
-            if(user != null)
+            var result = await _userServices.EditUserAsync(userId, changeRoleView, roles);
+
+            if (!result)
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
-                var addedRoles = roles.Except(userRoles);
-                var removedRoles = userRoles.Except(roles);
-                user.FirstName = changeRoleView.FirstName;
-                user.LastName = changeRoleView.LastName;
-                IdentityResult results = await _userManager.UpdateAsync(user);
-                var _passwordValidator =
-                HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
-                var _passwordHasher =
-                    HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
-
-                IdentityResult result =
-                    await _passwordValidator.ValidateAsync(_userManager, user, changeRoleView.Password);
-                if (result.Succeeded)
-                {
-                    user.PasswordHash = _passwordHasher.HashPassword(user, changeRoleView.Password);
-                    await _userManager.UpdateAsync(user);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-
-                await _userManager.AddToRolesAsync(user, addedRoles);
-
-                await _userManager.RemoveFromRolesAsync(user, removedRoles);
-
-                return RedirectToAction("UserList");
+                return NotFound();
             }
 
-            return NotFound();
+            return RedirectToAction("UserList");
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Bloggs.Models.ViewModel
+namespace Bloggs.Models.Request
 {
     public class ChangeRoleViewModel
     {
@@ -12,7 +12,8 @@ namespace Bloggs.Models.ViewModel
         public string Password { get; set; }
         public List<IdentityRole> AllRoles { get; set; }
         public IList<string> UserRoles { get; set; }
-        public ChangeRoleViewModel () {
+        public ChangeRoleViewModel()
+        {
             AllRoles = new List<IdentityRole>();
             UserRoles = new List<string>();
         }
