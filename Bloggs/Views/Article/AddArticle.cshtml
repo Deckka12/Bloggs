@@ -7,12 +7,14 @@
         <label asp-for="Title">Title</label>
         <input type="text" asp-for="Title" />
         <span asp-validation-for="Title"></span>
+        @Html.ValidationMessageFor(m => m.Title)
     </div>
     <div class="field-container-content">
         <label asp-for="Content">Content</label>
         <textarea  asp-for="Content"></textarea>
         <br>
         <span asp-validation-for="Content"></span>
+        @Html.ValidationMessageFor(m => m.Content)
     </div>
 
     <div class="select-wrapper">

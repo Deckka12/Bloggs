@@ -2,7 +2,7 @@ using DBContex.Models;
 using DBContex.Repository;
 using Bloggs.Services;
 using Microsoft.AspNetCore.Identity;
-using Bloggs;
+using Bloggs.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,12 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<PasswordValidator<User>>();
 
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 
 var app = builder.Build();
@@ -35,13 +40,15 @@ if(!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseMiddleware<ArticleMiddleware>();
+app.UseMiddleware<TagMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 
 app.UseEndpoints(endpoints =>

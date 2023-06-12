@@ -9,9 +9,11 @@ namespace Bloggs.Models.Response
     public class ArticleViewModel
     {
         public int Id { get; set; }
-
+        [Required(ErrorMessage = "Заполните поле Тема")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Поле должно содержать от 5 до 100 символов")]
         public string Title { get; set; }
-
+        [Required(ErrorMessage = "Заполните поле Содержание")]
+        [StringLength(5000, MinimumLength = 20, ErrorMessage = "Содержание должно содержать от 20 до 2000 сиволов")]
         public string Content { get; set; }
 
         public DateTime CreatedAt { get; set; }

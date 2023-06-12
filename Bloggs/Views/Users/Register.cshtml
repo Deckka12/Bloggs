@@ -11,26 +11,32 @@
             <div class="inputContainer">
                 <label class="label" for="Name">Имя</label>
                 <input type="text" class="input" id="Name" name="Name" required>
+                @Html.ValidationMessageFor(m => m.Name)
             </div>
             <div class="inputContainer">
                 <label class="label" for="FirstName">Фамилия</label>
                 <input type="text" class="input" id="FirstName" name="FirstName" required>
+                @Html.ValidationMessageFor(m => m.FirstName)
             </div>
             <div class="inputContainer">
                 <label class="label" for="LastName">Отчество</label>
                 <input type="text" class="input" id="LastName" name="LastName" required>
+                @Html.ValidationMessageFor(m => m.LastName)
             </div>
             <div class="inputContainer">
                 <label class="label" for="email">Почта</label>
                 <input type="email" class="input" id="email" name="email" required>
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
             <div class="inputContainer">
                 <label class="label" for="password">Пароль</label>
                 <input type="password" class="input" id="password" name="password" required>
+                @Html.ValidationMessageFor(m => m.Password)
             </div>
             <div class="inputContainer">
                 <label class="label" for="ConfirmPassword">Подтвердите пароль</label>
                 <input type="password" class="input" id="ConfirmPassword" name="ConfirmPassword" required>
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
             <button type="submit" class="submitBtn">Зарегистрироваться</button>
         </form>

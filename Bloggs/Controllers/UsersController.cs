@@ -5,6 +5,8 @@ using DBContex.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using System.Security.Claims;
 
 namespace Bloggs.Controllers
 {
@@ -13,6 +15,7 @@ namespace Bloggs.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IUserRepository _userRepository;
+        private static readonly NLog.ILogger Logger = LogManager.GetCurrentClassLogger();
         private readonly RoleManager<IdentityRole> roleManager;
 
         public UsersController(IUserRepository userRepository, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
@@ -62,6 +65,7 @@ namespace Bloggs.Controllers
                 await userManager.AddToRoleAsync(user, role);
 
                 await signInManager.SignInAsync(user, isPersistent: false);
+                Logger.Warn($"Успешная регистрация {user.Name} ");
                 return RedirectToAction("Index", "Home");
             }
 
@@ -69,7 +73,7 @@ namespace Bloggs.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
-
+            Logger.Warn($"Неуспешная регистрация {user.Name} ");
             return View(model);
         }
 
@@ -87,9 +91,18 @@ namespace Bloggs.Controllers
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (result.Succeeded)
                 {
+                    Logger.Info($"Успешная авторизация {user.Name} ");
+                    await signInManager.SignInAsync(user, false);
+                    var cookie = Request.Cookies[".AspNetCore.Application.Id"]; // get authentication cookie
+                    if (cookie != null )
+                    {
+                        // authentication cookie was successfully set
+                    }
                     return RedirectToLocal(returnUrl);
                 }
+              
             }
+            Logger.Warn($"Неудачная попытка входа {user.Name} ");
             ModelState.AddModelError("", "Invalid login attempt.");
             return View(model);
         }
@@ -110,9 +123,11 @@ namespace Bloggs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Logger.Info($" Пользователь {currentUser.FindFirst(ClaimTypes.NameIdentifier)?.Value} успешно вышел из системы!");
             // удаление аутентификационных куки
             await signInManager.SignOutAsync();
-
+            
             // перенаправление на домашнюю страницу
             return RedirectToAction("Index", "Home");
         }

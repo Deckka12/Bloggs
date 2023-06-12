@@ -11,10 +11,12 @@
             <div class="inputContainer">
                 <label class="label" for="email" >Почта</label>
                 <input type="email" class="input" placeholder="a" id="email" name="email" required>
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
             <div class="inputContainer">
                 <label class="label" for="password">Пароль</label>
                 <input type="password" class="input" placeholder="a" id="password" name="password" required>
+                @Html.ValidationMessageFor(m => m.Password)
             </div>
             <input type="hidden" name="returnUrl" value="https://localhost:7231" />
             <button type="submit" class="submitBtn">Войти</button>  

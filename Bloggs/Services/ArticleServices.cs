@@ -16,11 +16,10 @@ namespace Bloggs.Services
 
         public IEnumerable<Article> Articles(Dictionary<string, bool> tagFilters, int page, int pageSize, out int totalArticles, out Dictionary<string, bool> tagFilter)
         {
-            var articles = _articleRepository.GetAllPosts().Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key && tf.Value)))
-                     .Where(a => tagFilters.All(tf => a.Tags.Any(t => t.Name == tf.Key)))
-                 .OrderByDescending(a => a.PublicationDate)
-                 .Skip((page - 1) * pageSize)
-                 .Take(pageSize);
+            var articles = _articleRepository.GetAllPosts()
+                  .OrderByDescending(a => a.PublicationDate)
+                  .Skip((page - 1) * pageSize)
+                  .Take(pageSize);
 
             if (tagFilters != null && tagFilters.Any())
             {

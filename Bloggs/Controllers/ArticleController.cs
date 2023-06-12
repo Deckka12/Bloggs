@@ -7,7 +7,9 @@ using Bloggs.Models.Response;
 using System.Security.Claims;
 using System.Data;
 using Bloggs.Services;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using NLog;
 
 namespace Bloggs.Controllers
 {
@@ -20,6 +22,7 @@ namespace Bloggs.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ITagRepository _tagRepository;
         private readonly IArticleServices _articleServices;
+        private static readonly NLog.ILogger Logger = LogManager.GetCurrentClassLogger();
         public ArticleController(IArticleRepository articleRepository, ITagRepository tagRepository, ICommentRepository commentRepository, IArticleServices articleServices)
         {
             this._articleRepository = articleRepository;
@@ -32,6 +35,7 @@ namespace Bloggs.Controllers
         [HttpGet]
         public IActionResult Index(Dictionary<string, bool> tagFilters, int page = 1, int pageSize = 10)
         {
+
             int totalArticles = 0;
             Dictionary<string, bool> tagFilter;
             IEnumerable<Article> article = _articleServices.Articles(tagFilters, page, pageSize, out totalArticles, out tagFilter); ;
@@ -51,6 +55,7 @@ namespace Bloggs.Controllers
             {
                 AllTags = _tagRepository.GetAllTags().ToList()
             };
+
             return View(model);
         }
 
@@ -73,6 +78,7 @@ namespace Bloggs.Controllers
                 model.Title = add.Title;
                 model.Tags = Tags;
                 _articleRepository.AddPost(model);
+                Logger.Info($"Пользователь {userIdStr} создал статью {add.Title} ");
                 return RedirectToAction("Index", "Home");
             }
 
@@ -103,7 +109,7 @@ namespace Bloggs.Controllers
                 tags = _tagRepository.GetAllTags().
                 ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]),
             };
-
+           
             return View(vm);
         }
 
@@ -124,29 +130,25 @@ namespace Bloggs.Controllers
         //}
 
         [HttpPost]
-        //[Authorize(Roles = "Администратор")]
+      //  [Authorize(Roles = "Администратор, Модератор")]
         public IActionResult Edit(ArticleViewModel vm)
         {
             var article = _articleRepository.GetPostById(vm.Id);
-
             article.Title = vm.Title;
             article.Content = vm.Content;
-            var Tags = new List<Tag>();
-            foreach (var tag in vm.tags)
-            {
-                //if (tag.Value)
-                    Tags.Add(_tagRepository.GetTahByName(tag.Key));
-            }
-            article.Tags = Tags;
+            var selectedTags = vm.tags.Where(t => t.Value).Select(t => _tagRepository.GetTahByName(t.Key));
+            article.Tags = selectedTags.ToList();
             _articleRepository.UpdatePost(article);
-
-            return RedirectToAction("Edit", new { id = article.Id });
+            Logger.Info($"Пользователь {article.Author.UserName} выполнил редактирование статьи {article.Id} ");
+            return RedirectToAction(nameof(Edit), new { id = article.Id });
         }
         [HttpPost]
+        //[Authorize(Roles = "Администратор, Модератор")]
         public IActionResult Delete(int id)
         {
+            ClaimsPrincipal currentUser = this.User;
             _articleRepository.DeletePost(id);
-
+            Logger.Info($"Пользователь {currentUser} выполнил удаление статьи {id} ");
             return View();
         }
     }

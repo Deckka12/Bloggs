@@ -1,12 +1,30 @@
 ﻿@model IEnumerable<DBContex.Models.Article>
 @using Microsoft.AspNetCore.Mvc.Rendering;
+@using System;
 
 
 @{
     ViewBag.Title = "Статьи";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Dictionary<string, bool> teggss = ViewBag.TagsList;
- 
+    string encodedTagFilters = null;
+    Dictionary<string, bool> tegg = new Dictionary<string, bool>();
+    if (ViewBag.Tags != "")
+    {
+        string[] tegs = ViewBag.Tags.Split(',');
+
+        foreach (var tags in tegs)
+        {
+            tegg.Add(tags, true);
+        }
+        encodedTagFilters = string.Join("&", tegg
+          .Select(kvp => $"tagFilters%5B{kvp.Key}%5D={kvp.Value.ToString().ToLower()}"));
+    }
+    if (String.IsNullOrEmpty(encodedTagFilters))
+    {
+        tegg = ViewBag.TagsList;
+        encodedTagFilters = string.Join("&", tegg
+         .Select(kvp => $"tagFilters=%5B{kvp.Key},%20{kvp.Value.ToString().ToLower()}%5D"));
+    }
 
 }
 <head>
@@ -38,22 +56,22 @@
             background-color: #f5f5f5;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
-        function getSelectedTags() {
-            var selectedTags = [];
-            var checkboxes = document.getElementById('elem');// Получаем все чекбоксы
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {// Если чекбокс отмечен, добавляем его значение в массив selectedTags
-                    selectedTags.push(checkboxes[i].value);
-                }
-            }
-            document.getElementById('tegg').value = selectedTags.join(','); // Добавляем выбранные теги в скрытое поле
-            return selectedTags;
-        }
+        $(document).ready(function () {
+            $('.row-article').click(function () {
+                var url = $(this).data('url');
+                window.location.href = url;
+            });
+        });
     </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
-@using(Html.BeginForm("Index", "Article", FormMethod.Get))
+@using (Html.BeginForm("Index", "Article",  new { tagFilters = ViewBag.SelectedTags }, FormMethod.Get))
 {
     <h1>Articles</h1>
     <div class="form-group">
@@ -69,13 +87,13 @@
             }
         </div>
         <button type="submit" class="btn btn-primary"
-                onclick="document.getElementById('tegg').value = getSelectedTags().join(',');">
+              >
             Применить фильтр
         </button>
         <a href="@Url.Action("Index", "Article")" class="btn btn-secondary">Clear Filters</a>
     </div>
-    <input type="hidden" name="tegg" id="tegg" value="" /> <!-- Отправляем список выбранных тегов в скрытом поле -->
 }
+<!-- Наполнение таблицы -->
 <a href="@Url.Action("AddArticle", "Article")" class="btn btn-secondary Article">Создать статью</a>
 <table class="table ">
     <thead>
@@ -85,12 +103,14 @@
             <th>Дата публикации</th>
             <th>Автор</th>
             <th>Теги</th>
+            <th>Функции</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var article in Model)
         {
-            <tr>
+            <tr >
+                
                 <td>@article.Title</td>
                 <td>@(article.Content.Length > 40 ? article.Content.Substring(0, 40) + "..." : article.Content)</td>
                 <td>@article.PublicationDate.ToShortDateString()</td>
@@ -104,48 +124,49 @@
                               @(", ")
                            }
                     }
-                   
                 </th>
-                <td>
-                    <a href="@Url.Action("Edit", "Article", new { id = article.Id })">Посмотреть</a>
-                </td>
+                <th>
+                    <form action="@Url.Action("Edit", "Article")" method="GET" style="display:inline-block;">
+                        <input type="hidden" name="id" value="@article.Id" />
+                        <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
+                    </form>
+                    <form method="post" asp-action="Delete" asp-controller="Article" style="display:inline-block;">
+                        <input type="hidden" name="id" value="@article.Id" />
+                        <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
+                    </form>
+                </th>
+
+               
             </tr>
         }
     </tbody>
 </table>
-
-
-
-
-
-    <!-- Пагинация -->
     <div class="pagination">
-        
-
-        @if(ViewBag.CurrentPage > 1)
-        {
-        <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">Previous</a>
-        }
-
-        @for(var i = 1; i <= ViewBag.TotalPages; i++)
-        {
-            if(i == ViewBag.CurrentPage)
+    <!-- Пагинация страниц -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <p>
+            @if (ViewBag.CurrentPage > 1)
             {
-                <span>@i</span>
+                <a href="/Article?@encodedTagFilters&page=@(ViewBag.CurrentPage - 1)&pageSize=@(ViewBag.PageSize)">Предыдущая</a>
             }
-            else
+            @for (var i = 1; i <= ViewBag.TotalPages; i++)
             {
-
-            <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = i, pageSize = ViewBag.PageSize })@(ViewContext.HttpContext.Request.QueryString)">@(i)</a>
-                
+                if (i == ViewBag.CurrentPage)
+                {
+                    <span>@i</span>
+                }
+                else
+                {
+                    <a href="/Article?@encodedTagFilters&page=@i&pageSize=@(ViewBag.PageSize)">@(i)</a>
+                }
             }
-        }
-
-        @if(ViewBag.CurrentPage < ViewBag.TotalPages)
-        {
-        <a  href="@Url.Action("Index", "Article", new {tagFilters = @teggss, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize})@(ViewContext.HttpContext.Request.QueryString)">Next</a>
-            
-        }
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="/Article?@encodedTagFilters&page=@(ViewBag.CurrentPage + 1)&pageSize=@(ViewBag.PageSize)">Следующая</a>
+            }
+        </p>
+    }
     </div>
 
 
