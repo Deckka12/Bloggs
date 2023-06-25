@@ -99,8 +99,7 @@ namespace Bloggs.Controllers
                 CreatedAt = article.PublicationDate,
                 AuthorId = article.AuthorId,
                 AuthorName = article.Author.UserName,
-                Comments = comments.Select(c => new CommentViewModel
-                {
+                Comments = comments.Select(c => new CommentViewModel               {
                     Id = c.Id,
                     Content = c.Text,
                     CreatedAt = c.PublicationDate,

@@ -1,4 +1,5 @@
 ﻿using DBContex.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DBContex.Repository
 {
@@ -15,7 +16,7 @@ namespace DBContex.Repository
         }
 
         public IEnumerable<Comment> GetCommentsByPostId (int postId) {
-            return _context.Comments.Where(comment => comment.ArticleId == postId).ToList();
+            return _context.Comments.Include(x=>x.Author).Where(comment => comment.ArticleId == postId).ToList();
         }
 
         public void AddComment (Comment comment) {
