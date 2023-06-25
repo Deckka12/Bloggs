@@ -143,7 +143,7 @@ namespace Bloggs.Controllers
         }
 
         [HttpGet]
-        //  [Authorize(Roles = "Администратор, Модератор")]
+        [Authorize(Roles = "Администратор, Модератор")]
         public IActionResult View(int id)
         {
             var article = _articleRepository.GetPostById(id);
