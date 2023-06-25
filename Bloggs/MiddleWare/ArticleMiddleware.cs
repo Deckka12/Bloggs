@@ -14,10 +14,11 @@ namespace Bloggs.MiddleWare
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Path.Value.ToLower();
-
+           
             // Если запрос отправлен на некоторый контроллер
             if (path.Contains("/article"))
             {
+                
                 if (context.Request.Method == "POST")
                 {
                     var requestForm = await context.Request.ReadFormAsync();
@@ -43,10 +44,7 @@ namespace Bloggs.MiddleWare
 
             }
             else  await _next(context); 
-            if(context.Response.StatusCode ==404)
-            {
 
-            }
 
         }
     }

@@ -1,0 +1,14 @@
+﻿@model Bloggs.Models.Request.EditRoleViewModel
+
+<h1>Редактирование роли</h1>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="EditRole" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group">
+        <label for="name">Имя:</label>
+        <input name="name" class="form-control" value="@Model.Name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Изменить</button>
+</form>

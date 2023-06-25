@@ -1,12 +1,6 @@
 ﻿@model Bloggs.Models.Response.ArticleViewModel
 
-@if (User.IsInRole("Пользователь"))
-{
-    <h2><strong>Тема: </strong><br />@Model.Title</h2>
-    <h2><strong>Описание: </strong></h2>
-    <p class="perenos">@Model.Content</p>
-}
-else{
+
     <h3>Изменить статью</h3>
     @using (Html.BeginForm("Edit", "Article", FormMethod.Post))
     {
@@ -25,20 +19,10 @@ else{
         {
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" name="tags[@tag.Key]" value="@tag.Value" @(tag.Value ? "checked" : "") /> @tag.Key
+                    <input type="checkbox" name="tags[@tag.Key]" value="true" @(tag.Value ? "checked" : "") /> @tag.Key
                 </label>
             </div>
         }
         <input type="submit" value="Сохранить" class="btn btn-primary" />
     }
-}
 
-@if (User.Identity.IsAuthenticated)
-{
-    <h3>Добавить комментарий</h3>
-
-    @Html.Partial("../Comment/_AddComment", Model.AddNewComment)
-}
-<h3>Комментариев: @Model.Comments.Count </h3>
-
-@Html.Partial("../Comment/_Comments", Model.Comments) 

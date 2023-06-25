@@ -5,12 +5,12 @@ namespace Bloggs.Models.Request
 {
     public class ArticleAddViewModel
     {
-        [Required(ErrorMessage = "Please enter a title")]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "Title must be between 5 and 100 characters")]
+        [Required(ErrorMessage = "Заполните Тему")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Тему должа быть не менее 5 и более 100 символов")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Please enter the content of the article")]
-        [StringLength(5000, MinimumLength = 20, ErrorMessage = "Content must be between 20 and 5000 characters")]
+        [Required(ErrorMessage = "Заполните описание")]
+        [StringLength(5000, MinimumLength = 20, ErrorMessage = "Опиасние должно быть не мнее 20 символов и не более 5000")]
         public string Content { get; set; }
 
         public List<int> TagIds { get; set; }

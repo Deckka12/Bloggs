@@ -10,7 +10,7 @@
         @Html.ValidationMessageFor(m => m.Title)
     </div>
     <div class="field-container-content">
-        <label asp-for="Content">Content</label>
+        <label asp-for="Content">Комментарий</label>
         <textarea  asp-for="Content"></textarea>
         <br>
         <span asp-validation-for="Content"></span>
@@ -26,15 +26,17 @@
                     <input type="checkbox"
                        name="TagIds"
                        value="@tag.Id"
+                           data-val-required="Выберите хотя бы один тег"
                        onclick="toggleTag('@tag.Id')"
-                       @(Model.TagIds != null && Model.TagIds.Contains(tag.Id) ? "checked" : "") />
+                       @(Model.TagIds != null && Model.TagIds.Contains(tag.Id) ? "checked" : "") 
+                       />
                     @tag.Name
                 </label>
             }
         </div>
         <span asp-validation-for="TagIds"></span>
     </div>
-    <button type="submit">Create Article</button>
+    <button type="submit">Добавить комментарий</button>
 </form>
 <script>
     function toggleTag(tagId) {

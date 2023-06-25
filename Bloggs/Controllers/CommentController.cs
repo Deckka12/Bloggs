@@ -19,9 +19,9 @@ namespace Bloggs.Controllers
             _articleRepository = articleRepository;
         }
 
-        public IActionResult Index(int postId)
+        public IActionResult Index()
         {
-            var comments = _commentRepository.GetCommentsByPostId(postId);
+            var comments = _commentRepository.GetComments();
 
             return View(comments);
         }

@@ -18,7 +18,10 @@ namespace DBContex.Repository
         public IEnumerable<Comment> GetCommentsByPostId (int postId) {
             return _context.Comments.Include(x=>x.Author).Where(comment => comment.ArticleId == postId).ToList();
         }
-
+        public IEnumerable<Comment> GetComments()
+        {
+            return _context.Comments.Include(x => x.Author).ToList();
+        }
         public void AddComment (Comment comment) {
             _context.Comments.Add(comment);
             _context.SaveChanges();

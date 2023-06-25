@@ -1,0 +1,13 @@
+﻿@model IEnumerable<DBContex.Models.Comment>
+@foreach (var article in Model)
+{
+    <div class="form boxShadowLogin">
+
+        <h1>@article.Author.UserName</h1>
+        <h3>@article.Text</h3>
+            <h6>@article.PublicationDate.ToShortDateString()</h6>
+            <h6>@article.Author.UserName</h6>
+
+
+    </div>
+}

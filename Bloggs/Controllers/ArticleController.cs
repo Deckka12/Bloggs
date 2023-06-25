@@ -129,7 +129,7 @@ namespace Bloggs.Controllers
         //}
 
         [HttpPost]
-      //  [Authorize(Roles = "Администратор, Модератор")]
+        [Authorize(Roles = "Администратор, Модератор")]
         public IActionResult Edit(ArticleViewModel vm)
         {
             var article = _articleRepository.GetPostById(vm.Id);
@@ -139,7 +139,36 @@ namespace Bloggs.Controllers
             article.Tags = selectedTags.ToList();
             _articleRepository.UpdatePost(article);
             Logger.Info($"Пользователь {article.Author.UserName} выполнил редактирование статьи {article.Id} ");
-            return RedirectToAction(nameof(Edit), new { id = article.Id });
+            return RedirectToAction(nameof(View), new { id = article.Id });
+        }
+
+        [HttpGet]
+        //  [Authorize(Roles = "Администратор, Модератор")]
+        public IActionResult View(int id)
+        {
+            var article = _articleRepository.GetPostById(id);
+            var comments = _commentRepository.GetCommentsByPostId(id);
+            Dictionary<string, bool> tagFilters = article.Tags.ToDictionary(t => t.Name, t => true);
+            var vm = new ArticleViewModel
+            {
+                Id = article.Id,
+                Title = article.Title,
+                Content = article.Content,
+                CreatedAt = article.PublicationDate,
+                AuthorId = article.AuthorId,
+                AuthorName = article.Author.UserName,
+                Comments = comments.Select(c => new CommentViewModel
+                {
+                    Id = c.Id,
+                    Content = c.Text,
+                    CreatedAt = c.PublicationDate,
+                    AuthorName = c.Author.UserName
+                }).ToList(),
+                tags = _tagRepository.GetAllTags().
+                ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]),
+            };
+
+            return View(vm);
         }
         [HttpPost]
         //[Authorize(Roles = "Администратор, Модератор")]

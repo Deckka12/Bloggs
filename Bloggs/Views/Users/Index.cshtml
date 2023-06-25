@@ -3,33 +3,31 @@
     @using Bloggs.Models.Response;
 @model ChangeRoleViewModels
 @inject UserManager<DBContex.Models.User> UserManager;
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
 <h2>Список пользователей</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Пользователь</th>
-            <th>Роли</th>
-            <th>Права доступа</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(User user in Model.User)
-        {
-            <tr>
-                <td>@user.Name</td>
-                <td>
-                    @foreach(Microsoft.AspNetCore.Identity.IdentityRole role in Model.AllRoles)
-                    {
-                        if(await UserManager.IsInRoleAsync(user, role.Name))
-                        {
-                            <span>@role.Name</span>
-                        }
-                    }
-                </td>
-                <td>
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="Roles" asp-route-userid="@user.Id">Права доступа</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<body>
+    @foreach (User user in Model.User)
+    {
+        <div class="form boxShadowLogin">
+            <h1>@user.FirstName @user.Name </h1>
+            @foreach (Microsoft.AspNetCore.Identity.IdentityRole role in Model.AllRoles)
+            {
+                <div class="Tags">
+                    @role.Name
+                </div>
+            }
+            <div class="article-actions">
+                <form action="@Url.Action("Edit", "Roles")" method="get" style="display:inline-block;">
+                    <input type="hidden" name="userid" value="@user.Id" />
+                    <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
+                </form>
+                <form method="post" asp-action="Delete" asp-controller="Roles" style="display:inline-block;">
+                    <input type="hidden" name="id" value="@user.Id" />
+                    <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
+                </form>
+            </div>
+        </div>
+    }
+</body>

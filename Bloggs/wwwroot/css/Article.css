@@ -149,7 +149,7 @@ textarea {
     background-color: inherit;
 }
 .perenos {
-    border: 1px solid #245488;
+    
     margin: 20px auto;
     padding: 10px;
     width: 100%;
@@ -222,7 +222,6 @@ textarea {
 
 
 body {
-    margin: 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -421,4 +420,81 @@ table.table_adaptive {
     margin-bottom: 3px;
 
 
+}
+.boxShadowLogin {
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    width: 100%;
+    border-radius: 6px;
+    display:block;
+}
+.Theme {
+    text-decoration:none;
+}
+.Tags {
+    background-color: #20B2AA;
+    margin: 1px;
+    color: white;
+    display: inline-block;
+    margin-right: -2px;
+    border-radius: 6px;
+    width: 49px;
+    height: 25px;
+}
+.article-footer {
+    position: absolute;
+    bottom: auto;
+    right: 0;
+    /* margin: -2px; */
+    margin-right: 300px;
+    margin-top: calc(100px/2 - 150px/2);
+}
+
+.article-actions {
+    clear: both;
+}
+
+
+.article {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+.article h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+    .article h2 strong {
+        font-weight: bold;
+    }
+
+.article p.perenos {
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.comment-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+    .comment-section h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+.divs {
+    position: static;
+    display: flex;
+    margin: -0px;
+    padding: 0px;
+    right: 100px;
 }

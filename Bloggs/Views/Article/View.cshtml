@@ -1,0 +1,30 @@
+﻿@model Bloggs.Models.Response.ArticleViewModel
+<div class="article">
+    <h2><strong>Тема: </strong>@Model.Title</h2>
+    @foreach (var tagsName in @Model.tags)
+    {
+        @if (tagsName.Value)
+        {
+            <div class="Tags">
+                @tagsName.Key
+            </div>
+        } 
+    }
+    <h2><strong>Описание: </strong></h2>
+    <p class="perenos">@Model.Content</p>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="comment-section">
+            <h3>Добавить комментарий</h3>
+
+            @Html.Partial("../Comment/_AddComment", Model.AddNewComment)
+        </div>
+    }
+
+    <div class="comment-section">
+        <h3>Комментариев: @Model.Comments.Count </h3>
+
+        @Html.Partial("../Comment/_Comments", Model.Comments)
+    </div>
+</div>

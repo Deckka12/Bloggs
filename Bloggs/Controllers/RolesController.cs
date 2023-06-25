@@ -49,7 +49,7 @@ namespace WebAutoSHop.Controllers
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Users");
         }
 
         public async Task<IActionResult> UserList () {
@@ -106,7 +106,57 @@ namespace WebAutoSHop.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("UserList");
+            return RedirectToAction("Index","Users");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            // Если роль не найдена, перенаправляем пользователя на страницу "Index"
+            if (role == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // Создаем объект модели и передаем в него имя роли
+            var model = new EditRoleViewModel
+            {
+                Id = role.Id,
+                Name = role.Name
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = await _roleManager.FindByIdAsync(model.Id);
+
+                if (role != null)
+                {
+                    role.Name = model.Name;
+
+                    var result = await _roleManager.UpdateAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
     }
 

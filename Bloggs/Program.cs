@@ -49,8 +49,28 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseExceptionHandlerMiddleware();
+app.UseExceptionHandler("/Error/Index");
 
+// обработка ошибок HTTP
+app.UseStatusCodePages(async statusCodeContext =>
+{
+    var response = statusCodeContext.HttpContext.Response;
+    var path = statusCodeContext.HttpContext.Request.Path;
 
+    response.ContentType = "text/plain; charset=UTF-8";
+    if (response.StatusCode == 403)
+    {
+        statusCodeContext.HttpContext.Response.Redirect("/Error/AccessDenied");
+    }
+    else if (response.StatusCode == 404)
+    {
+        statusCodeContext.HttpContext.Response.Redirect("/Error/Index");
+    }
+    else
+        statusCodeContext.HttpContext.Response.Redirect("/Error/Errors");
+
+});
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -68,5 +88,5 @@ app.UseEndpoints(endpoints =>
         pattern: "Users/Logout",
         defaults: new { controller = "Users", action = "Logout" });
 });
-app.UseExceptionHandler("/Home/Error");
+
 app.Run();
