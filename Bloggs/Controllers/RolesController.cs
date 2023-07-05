@@ -23,6 +23,7 @@ namespace WebAutoSHop.Controllers
 
         public IActionResult Create () => View();
         [HttpPost]
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Create (string name) {
             if(!string.IsNullOrEmpty(name))
             {
@@ -43,6 +44,7 @@ namespace WebAutoSHop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Администратор, Модератор")]
         public async Task<IActionResult> Delete (string id) {
             Microsoft.AspNetCore.Identity.IdentityRole role = await _roleManager.FindByIdAsync(id);
             if(role != null)
@@ -51,7 +53,7 @@ namespace WebAutoSHop.Controllers
             }
             return RedirectToAction("Index","Users");
         }
-
+        [Authorize(Roles = "Администратор, Модератор")]
         public async Task<IActionResult> UserList () {
 
             var users = _userManager.Users.ToList();
@@ -75,7 +77,7 @@ namespace WebAutoSHop.Controllers
 
             return NotFound();
         }
-
+        [Authorize(Roles = "Администратор, Модератор")]
         public async Task<IActionResult> Edit (string userId) {
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -98,6 +100,7 @@ namespace WebAutoSHop.Controllers
             return NotFound();
         }
         [HttpPost]
+        [Authorize(Roles = "Администратор, Модератор")]
         public async Task<IActionResult> Edit (string userId, List<string> roles,ChangeRoleViewModel changeRoleView) {
             var result = await _userServices.EditUserAsync(userId, changeRoleView, roles);
 
@@ -110,6 +113,7 @@ namespace WebAutoSHop.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -130,6 +134,7 @@ namespace WebAutoSHop.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Администратор, Модератор")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             if (ModelState.IsValid)

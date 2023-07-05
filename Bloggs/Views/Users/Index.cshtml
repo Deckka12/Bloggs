@@ -11,11 +11,15 @@
     @foreach (User user in Model.User)
     {
         <div class="form boxShadowLogin">
-            <h1>@user.FirstName @user.Name </h1>
-            @foreach (Microsoft.AspNetCore.Identity.IdentityRole role in Model.AllRoles)
+            <h1>@user.FirstName @user.Name  </h1>
+            @{
+
+                var roles = await UserManager.GetRolesAsync(user );
+            }
+            @foreach (var roless in roles)
             {
                 <div class="Tags">
-                    @role.Name
+                    @roless
                 </div>
             }
             <div class="article-actions">

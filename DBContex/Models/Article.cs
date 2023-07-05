@@ -21,5 +21,6 @@ namespace DBContex.Models
         public virtual ICollection<Tag> Tags { get; set; }
         [Comment("список комментариев")]
         public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<Likes> Reactions { get; set; }
     }
 }

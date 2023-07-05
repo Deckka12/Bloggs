@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<DBContex.Models.Article>
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Rendering;
 @using System;
-
+@inject UserManager<DBContex.Models.User> userManager
 
 @{
     ViewBag.Title = "Статьи";
@@ -25,6 +26,7 @@
         encodedTagFilters = string.Join("&", tegg
          .Select(kvp => $"tagFilters=%5B{kvp.Key},%20{kvp.Value.ToString().ToLower()}%5D"));
     }
+    var currentUser = await userManager.GetUserAsync(User);
 
 }
 <head>
@@ -88,16 +90,22 @@
             <h6>@article.PublicationDate.ToShortDateString()</h6>
             <h6>@article.Author.UserName</h6>
         </div>
-        <div class="article-actions">
-        <form action="@Url.Action("Edit", "Article")" method="GET" style="display:inline-block;">
-            <input type="hidden" name="id" value="@article.Id" />
-            <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
-        </form>
-        <form method="post" asp-action="Delete" asp-controller="Article" style="display:inline-block;">
-            <input type="hidden" name="id" value="@article.Id" />
-            <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
-        </form>
-        </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (@currentUser.UserName == article.Author.UserName || User.IsInRole("Администратор") || User.IsInRole("Модератор"))
+                {
+                    <div class="article-actions">
+                        <form action="@Url.Action("Edit", "Article")" method="GET" style="display:inline-block;">
+                            <input type="hidden" name="id" value="@article.Id" />
+                            <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
+                        </form>
+                        <form method="post" asp-action="Delete" asp-controller="Article" style="display:inline-block;">
+                            <input type="hidden" name="id" value="@article.Id" />
+                            <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
+                        </form>
+                    </div>
+                }
+            }  
     </div>
 }
 </body>

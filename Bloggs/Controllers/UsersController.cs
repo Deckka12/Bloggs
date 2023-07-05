@@ -37,8 +37,8 @@ namespace Bloggs.Controllers
             };
             foreach (var user in users)
             {
-                var userRoles = await userManager.GetRolesAsync(user);
-                model.UserRoles.Add(userRoles.ToString());
+                model.UserRoles = await userManager.GetRolesAsync(user);
+                
             }
             return View(model);
         }
@@ -93,11 +93,7 @@ namespace Bloggs.Controllers
                 {
                     Logger.Info($"Успешная авторизация {user.Name} ");
                     await signInManager.SignInAsync(user, false);
-                    var cookie = Request.Cookies[".AspNetCore.Application.Id"]; // get authentication cookie
-                    if (cookie != null )
-                    {
-                        // authentication cookie was successfully set
-                    }
+                    
                     return RedirectToLocal(returnUrl);
                 }
               

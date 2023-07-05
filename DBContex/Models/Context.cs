@@ -12,6 +12,7 @@ namespace DBContex.Models
         public DbSet<Article> Articles { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Likes> Likes { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(@"Server=KOMPUTER;Database=Blog1;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=True;");

@@ -436,8 +436,8 @@ table.table_adaptive {
     background-color: #20B2AA;
     margin: 1px;
     color: white;
-    display: inline-block;
-    margin-right: -2px;
+    display: inline;
+    margin-right: 8px;
     border-radius: 6px;
     width: 49px;
     height: 25px;
@@ -449,6 +449,7 @@ table.table_adaptive {
     /* margin: -2px; */
     margin-right: 300px;
     margin-top: calc(100px/2 - 150px/2);
+    display: inline;
 }
 
 .article-actions {
@@ -492,7 +493,7 @@ table.table_adaptive {
     }
 
 .divs {
-    position: static;
+    position: center;
     display: flex;
     margin: -0px;
     padding: 0px;

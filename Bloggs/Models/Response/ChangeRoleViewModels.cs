@@ -8,6 +8,7 @@ namespace Bloggs.Models.Response
         public List<User> User { get; set; }
         public List<IdentityRole> AllRoles { get; set; }
         public IList<string> UserRoles { get; set; }
+       
         public ChangeRoleViewModels()
         {
             AllRoles = new List<IdentityRole>();

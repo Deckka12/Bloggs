@@ -65,68 +65,20 @@ namespace Bloggs.Controllers
             add.AllTags = _tagRepository.GetAllTags().ToList();
             if (ModelState.IsValid)
             {
-                var Tags = new List<Tag>();
-                foreach (var tag in add.TagIds)
-                {
-                    Tags.Add(_tagRepository.GetTagById(tag));
-                }
-                Article model = new Article();
                 var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                model.AuthorId = userIdStr;
-                model.PublicationDate = DateTime.Now;
-                model.Content = add.Content;
-                model.Title = add.Title;
-                model.Tags = Tags;
-                _articleRepository.AddPost(model);
-                Logger.Info($"Пользователь {userIdStr} создал статью {add.Title} ");
+                await _articleServices.CreateArticle(add, userIdStr);
                 return RedirectToAction("Index", "Home");
             }
-
             return View(add);
         }
 
 
         public IActionResult Edit(int id)
         {
-            var article = _articleRepository.GetPostById(id);
-            var comments = _commentRepository.GetCommentsByPostId(id);
-            Dictionary<string,bool> tagFilters = article.Tags.ToDictionary(t => t.Name, t=>true);
-            var vm = new ArticleViewModel
-            {
-                Id = article.Id,
-                Title = article.Title,
-                Content = article.Content,
-                CreatedAt = article.PublicationDate,
-                AuthorId = article.AuthorId,
-                AuthorName = article.Author.UserName,
-                Comments = comments.Select(c => new CommentViewModel               {
-                    Id = c.Id,
-                    Content = c.Text,
-                    CreatedAt = c.PublicationDate,
-                    AuthorName = c.Author.UserName
-                }).ToList(),
-                tags = _tagRepository.GetAllTags().
-                ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]),
-            };
-           
+            var vm = _articleServices.GetArticleById(id);
             return View(vm);
         }
 
-
-
-        //[HttpGet]
-        //public IActionResult Edit (int id) {
-        //    var article = _articleRepository.GetPostById(id);
-
-        //    var vm = new ArticleViewModel
-        //    {
-        //        Id = article.Id,
-        //        Title = article.Title,
-        //        Content = article.Content
-        //    };
-
-        //    return View(vm);
-        //}
 
         [HttpPost]
         [Authorize(Roles = "Администратор, Модератор")]
@@ -143,31 +95,10 @@ namespace Bloggs.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Администратор, Модератор")]
+       // [Authorize(Roles = "Администратор, Модератор")]
         public IActionResult View(int id)
         {
-            var article = _articleRepository.GetPostById(id);
-            var comments = _commentRepository.GetCommentsByPostId(id);
-            Dictionary<string, bool> tagFilters = article.Tags.ToDictionary(t => t.Name, t => true);
-            var vm = new ArticleViewModel
-            {
-                Id = article.Id,
-                Title = article.Title,
-                Content = article.Content,
-                CreatedAt = article.PublicationDate,
-                AuthorId = article.AuthorId,
-                AuthorName = article.Author.UserName,
-                Comments = comments.Select(c => new CommentViewModel
-                {
-                    Id = c.Id,
-                    Content = c.Text,
-                    CreatedAt = c.PublicationDate,
-                    AuthorName = c.Author.UserName
-                }).ToList(),
-                tags = _tagRepository.GetAllTags().
-                ToDictionary(t => t.Name, t => tagFilters != null && tagFilters.ContainsKey(t.Name) && tagFilters[t.Name]),
-            };
-
+            var vm = _articleServices.GetArticleViewModel(id);
             return View(vm);
         }
         [HttpPost]

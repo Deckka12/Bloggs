@@ -21,12 +21,15 @@ namespace Bloggs.Models.Response
         public string AuthorId { get; set; }
 
         public string AuthorName { get; set; }
+        public int LikesCount { get; set; }
+        public int DislikesCount { get; set; }
 
         public List<CommentViewModel> Comments { get; set; }
 
         public CommentViewModel NewComment { get; set; }
         public AddCommentViewModel AddNewComment { get; set; }
         public Dictionary<string, bool> tags { get; set; }
+
 
         public ArticleViewModel()
         {

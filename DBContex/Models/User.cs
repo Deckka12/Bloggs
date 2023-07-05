@@ -16,5 +16,6 @@ namespace DBContex.Models
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+        public ICollection<Likes> Reactions { get; set; }
     }
 }

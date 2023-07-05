@@ -8,10 +8,26 @@
             <div class="Tags">
                 @tagsName.Key
             </div>
-        } 
+        }
     }
     <h2><strong>Описание: </strong></h2>
     <p class="perenos">@Model.Content</p>
+
+    <!-- Кнопки для лайков и дизлайков -->
+    <div>
+        <button type="button" class="like-btn" data-article-id="@Model.Id" data-reaction-type="1">
+            <i class="fa fa-thumbs-up"></i>
+            <span class="reaction-count like-count">
+                 @Model.LikesCount
+                </span>
+        </button>
+        <button type="button" class="dislike-btn" data-article-id="@Model.Id" data-reaction-type="2">
+            <i class="fa fa-thumbs-down"></i>
+            <span class="reaction-count dislike-count">
+              @Model.DislikesCount
+                </span>
+        </button>
+    </div>
 
     @if (User.Identity.IsAuthenticated)
     {
@@ -23,8 +39,64 @@
     }
 
     <div class="comment-section">
-        <h3>Комментариев: @Model.Comments.Count </h3>
+        <h3>Комментариев: @Model.Comments.Count</h3>
 
         @Html.Partial("../Comment/_Comments", Model.Comments)
     </div>
 </div>
+
+<script>
+    $(function () {
+        // обработчик нажатия на кнопку лайка
+        $('.like-btn').click(function () {
+            var articleId = $(this).data('article-id');
+            var reactionType = $(this).data('reaction-type');
+
+            $.ajax({
+                type: 'POST',
+                url: '/Likes/AddReaction',
+                data: {
+                    'ArticleId': articleId,
+                    'ReactionType': reactionType
+                },
+                success: function (result) {
+                    if (result.success) {
+                        // обновляем значение счетчика лайков
+                        $('.like-count[data-article-id="' + articleId + '"]').text(result.likesCount);
+
+                        // обновляем значение счетчика дизлайков
+                        $('.dislike-count[data-article-id="' + articleId + '"]').text(result.dislikesCount);
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
+        });
+
+        // обработчик нажатия на кнопку дизлайка
+        $('.dislike-btn').click(function () {
+            var articleId = $(this).data('article-id');
+            var reactionType = $(this).data('reaction-type');
+
+            $.ajax({
+                type: 'POST',
+                url: '/Likes/AddReaction',
+                data: {
+                    'ArticleId': articleId,
+                    'ReactionType': reactionType
+                },
+                success: function (result) {
+                    if (result.success) {
+                        // обновляем значение счетчика дизлайков
+                        $('.dislike-count[data-article-id="' + articleId + '"]').text(result.dislikesCount);
+
+                        // обновляем значение счетчика лайков
+                        $('.like-count[data-article-id="' + articleId + '"]').text(result.likesCount);
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
