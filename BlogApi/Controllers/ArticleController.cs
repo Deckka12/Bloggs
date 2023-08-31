@@ -31,6 +31,14 @@ namespace BlogApi.Controllers
         public async Task<IEnumerable<Article>> Get () {
             return  _context.Articles.Include(a => a.Author).Include(a => a.Tags).ToList();
         }
+        // GET api/GetArticleId
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetArticleId/{id}")]
+        public async Task<ActionResult<Article>> GetArticlesId(int id)
+        {
+            return _context.Articles.Include(a => a.Author).Include(a => a.Tags).Where(x=>x.Id==id).FirstOrDefault();
+        }
 
     }
 }

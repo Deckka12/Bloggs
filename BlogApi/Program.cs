@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using DBContex.Repository;
 using DBContex.Models;
+using System.Text.Json.Serialization;
 
 namespace BlogApi
 {
@@ -20,6 +21,11 @@ namespace BlogApi
             builder.Services.AddTransient<ITagRepository, TagRepository>();
             builder.Services.AddTransient<ICommentRepository, CommentRepository>();
             builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "HomeApi", Version = "v1" }); }); 
             var app = builder.Build();
