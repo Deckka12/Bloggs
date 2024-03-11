@@ -1,141 +1,17 @@
-﻿@model IEnumerable<DBContex.Models.Article>
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.Rendering;
-@using System;
-@inject UserManager<DBContex.Models.User> userManager
+﻿@model string[]
 
-@{
-    ViewBag.Title = "Статьи";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    string encodedTagFilters = null;
-    Dictionary<string, bool> tegg = new Dictionary<string, bool>();
-    if (ViewBag.Tags != "")
+<h2 class="text">:</h2>
+
+<div class="folder-list text">
+    @foreach (var folder in Model)
     {
-        string[] tegs = ViewBag.Tags.Split(',');
-
-        foreach (var tags in tegs)
-        {
-            tegg.Add(tags, true);
-        }
-        encodedTagFilters = string.Join("&", tegg
-          .Select(kvp => $"tagFilters%5B{kvp.Key}%5D={kvp.Value.ToString().ToLower()}"));
-    }
-    if (String.IsNullOrEmpty(encodedTagFilters))
-    {
-        tegg = ViewBag.TagsList;
-        encodedTagFilters = string.Join("&", tegg
-         .Select(kvp => $"tagFilters=%5B{kvp.Key},%20{kvp.Value.ToString().ToLower()}%5D"));
-    }
-    var currentUser = await userManager.GetUserAsync(User);
-
-}
-<head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('.row-article').click(function () {
-                var url = $(this).data('url');
-                window.location.href = url;
-            });
-        });
-    </script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-</head>
-
-@using (Html.BeginForm("Index", "Article", new { tagFilters = ViewBag.SelectedTags }, FormMethod.Get))
-{
-    <h1>Articles</h1>
-    <div class="form-group">
-        <label for="tags">Filter by tags:</label>
-        <div>
-            @foreach (var tag in ViewBag.TagsList)
-            {
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="elem" name="tagFilters[@tag.Key]" value="true" @(tag.Value ? "checked" : "") /> @tag.Key
-                    </label>
-                </div>
-            }
+        <div class="folder-item text">
+            <a asp-controller="Article" asp-action="ShowPhotos" asp-route-folderName="@folder">
+                Show Photos from @folder
+            </a>
         </div>
-        <div class="form-group-buttons">
-            <button type="submit" class="btn btn-primary">
-                Применить фильтр
-            </button>
-            <a href="@Url.Action("Index", "Article")" class="btn btn-secondary">Clear Filters</a>
-        </div>
-    </div>
-}
-
-<div class="divs">
-    <a href="@Url.Action("AddArticle", "Article")" class="btn btn-secondary Article">Создать статью</a>
-</div>
-<!-- Наполнение таблицы -->
-
-<body>
-@foreach (var article in Model)
-{
-    <div class="form boxShadowLogin">
-        <a href="@Url.Action("View", "Article", new { id = article.Id })" name="id" value="@article.Id" class="Theme">@article.Title</a>
-        <br>
-        @foreach (var tagsName in @article.Tags)
-        {
-            <div class="Tags">
-                @tagsName.Name
-            </div>
-        }
-        <div class="article-footer">
-            <h6>@article.PublicationDate.ToShortDateString()</h6>
-            <h6>@article.Author.UserName</h6>
-        </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                @if (@currentUser.UserName == article.Author.UserName || User.IsInRole("Администратор") || User.IsInRole("Модератор"))
-                {
-                    <div class="article-actions">
-                        <form action="@Url.Action("Edit", "Article")" method="GET" style="display:inline-block;">
-                            <input type="hidden" name="id" value="@article.Id" />
-                            <button type="submit" class="btn-edit"><i class="fa fa-pencil-alt"></i></button>
-                        </form>
-                        <form method="post" asp-action="Delete" asp-controller="Article" style="display:inline-block;">
-                            <input type="hidden" name="id" value="@article.Id" />
-                            <button type="submit" class="btn-delete"><i class="fa fa-trash"></i></button>
-                        </form>
-                    </div>
-                }
-            }  
-    </div>
-}
-</body>
-
-<div class="pagination">
-    <!-- Пагинация страниц -->
-    @if (ViewBag.TotalPages > 1)
-    {
-        <p>
-            @if (ViewBag.CurrentPage > 1)
-            {
-                <a href="/Article?@encodedTagFilters&page=@(ViewBag.CurrentPage - 1)&pageSize=@(ViewBag.PageSize)">Предыдущая</a>
-            }
-            @for (var i = 1; i <= ViewBag.TotalPages; i++)
-            {
-                if (i == ViewBag.CurrentPage)
-                {
-                    <span>@i</span>
-                }
-                else
-                {
-                    <a href="/Article?@encodedTagFilters&page=@i&pageSize=@(ViewBag.PageSize)">@(i)</a>
-                }
-            }
-            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-            {
-                <a href="/Article?@encodedTagFilters&page=@(ViewBag.CurrentPage + 1)&pageSize=@(ViewBag.PageSize)">Следующая</a>
-            }
-        </p>
     }
 </div>
+
 
 

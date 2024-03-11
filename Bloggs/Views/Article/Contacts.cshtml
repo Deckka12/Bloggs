@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Контакты</title>
+    <script src="https://maps.googleapis.com/maps/api/js?YOUR_API_KEY&callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            text-align: justify;
+            line-height: 1.6;
+        }
+    </style>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 43.655087, lng: 45.303109 }, // Установите начальные координаты карты
+                zoom: 15// Установите начальное увеличение карты
+            });
+
+            // Добавьте маркеры для контактов
+            var marker = new google.maps.Marker({
+                position: { lat: 43.655087, lng: 45.303109 }, // Установите координаты маркера для контакта
+                map: map,
+                title: 'Казачье управа' // Установите название маркера
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Наши Контакты</h1>
+    <p>Телефон: +79388980785 </p>
+    <p>Почта: naur.cazack@yandex.ru </p>
+    <p>Атаман: Гамаюнов Дмитрий А. </p>
+    <p> Адресс: 366120 ст. Наурская, ул. Моздокская д.45 </p>
+    <div id="map"></div>
+</body>
+</html>

@@ -5,6 +5,7 @@ namespace DBContex.Repository
 {
     public interface IArticleRepository
     {
+
         IEnumerable<Article> GetAllPosts ();
         Article GetPostById (int id);
         Article GetPostByIdComment (int id);

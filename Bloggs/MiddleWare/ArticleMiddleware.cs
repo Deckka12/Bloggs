@@ -15,35 +15,35 @@ namespace Bloggs.MiddleWare
         {
             var path = context.Request.Path.Value.ToLower();
            
-            // Если запрос отправлен на некоторый контроллер
-            if (path.Contains("/article"))
-            {
+            //// Если запрос отправлен на некоторый контроллер
+            //if (path.Contains("/article"))
+            //{
                 
-                if (context.Request.Method == "POST")
-                {
-                    var requestForm = await context.Request.ReadFormAsync();
-                    var title = requestForm["title"];
-                    var content = requestForm["content"];
+            //    if (context.Request.Method == "POST")
+            //    {
+            //        var requestForm = await context.Request.ReadFormAsync();
+            //        var title = requestForm["title"];
+            //        var content = requestForm["content"];
 
-                    if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content))
-                    {
-                        context.Response.StatusCode = 400;
-                        await context.Response.WriteAsync("The title and content fields are required");
-                        Logger.Warn("The title and content fields are required");
-                    }
-                    //else if (!context.User.Identity.IsAuthenticated)
-                    //{
-                    //    context.Response.StatusCode = 401;
-                    //    context.Response.WriteAsync("No Autharized");
-                    //    Logger.Warn("No Autharized");
-                    //    return;
-                    //}
-                    else await _next(context);
-                }
-                else await _next(context);
+            //        if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content))
+            //        {
+            //            context.Response.StatusCode = 400;
+            //            await context.Response.WriteAsync("The title and content fields are required");
+            //            Logger.Warn("The title and content fields are required");
+            //        }
+            //        //else if (!context.User.Identity.IsAuthenticated)
+            //        //{
+            //        //    context.Response.StatusCode = 401;
+            //        //    context.Response.WriteAsync("No Autharized");
+            //        //    Logger.Warn("No Autharized");
+            //        //    return;
+            //        //}
+            //        else await _next(context);
+            //    }
+            //    else await _next(context);
 
-            }
-            else  await _next(context); 
+            //}
+             await _next(context); 
 
 
         }

@@ -1,10 +1,19 @@
 html {
     font-size: 14px;
 }
-
+/*.nav {
+    background-color: #a42b2a;
+    color: white !important;
+}
+.text {
+    color: white !important;
+}
+footer {
+    background-color: #2c75ff;
+}*/
 @media (min-width: 768px) {
     html {
-        font-size: 16px;
+        font-size: 16px;0
     }
 }
 
@@ -13,9 +22,13 @@ html {
     min-height: 100%;
 }
 
+/*.bodys {
+    background-color: #cd853f;
+}
 body {
     margin-bottom: 60px;
-}
+    background-color: #cd853f;
+}*/
 .footer {
     position: absolute;
     bottom: 0;

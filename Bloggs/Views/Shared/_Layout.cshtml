@@ -1,9 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<DBContex.Models.User> userManager
-@{
-   var currentUser = await userManager.GetUserAsync(User);
 
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,32 +9,39 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Article.css" asp-append-version="true" />
+    
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header > 
+        <nav class="nav navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 nav">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Blog</a>
+                <a class="text navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Казачество</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                            <a class=" text nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Статьи</a>
+                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Фото</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="History">История</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Contacts">Контакты</a>
+                        </li>
+                       
                     </ul>
                     <div class="float-right pt-1">
-                        @if(User.Identity.IsAuthenticated)
-                        {
+                       
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item dropdown">
                                     
                                     <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Привет, @currentUser.Name
+                                        Привет,
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                         <a class="dropdown-item" href="@Url.Action("Index", "Users")">Пользователи</a>
@@ -55,12 +58,10 @@
                                     </div>
                                 </li>
                             </ul>
-                        }
-                        else
-                        {
-                            <a asp-controller="Users" asp-action="Register" class="btn btn-success ml-2">Registration</a>
-                            <a asp-controller="Users" asp-action="Login" class="btn btn-primary ml-2">Login</a>
-                        }
+                        
+
+                            <a asp-controller="Users" asp-action="Login" class=" bodys btn btn-primary ml-2 ">Войти</a>
+                 
                     </div>
                 </div>
             </div>
@@ -75,8 +76,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Blog - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="text container">
+            &copy; 2023 - Blog - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text">Privacy</a>
         </div>
         @RenderSection("scripts", required: false)
 

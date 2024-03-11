@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<Context>();
+/*builder.Services.AddDbContext<Context>();
 builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<Context>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
@@ -17,11 +17,12 @@ builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
 builder.Services.AddTransient<IArticleServices, ArticleServices>();
 builder.Services.AddTransient<IUserServices, UserServices>();
+builder.Services.AddTransient<IBlogRepository, BlogRepository>();*/
 // Добавляем PasswordHasher как сервис
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-
+//builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+//
 // Добавляем PasswordValidator как сервис
-builder.Services.AddScoped<PasswordValidator<User>>();
+//builder.Services.AddScoped<PasswordValidator<User>>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
@@ -49,7 +50,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseExceptionHandlerMiddleware();
+//app.UseExceptionHandlerMiddleware();
 app.UseExceptionHandler("/Error/Index");
 
 // обработка ошибок HTTP
@@ -63,12 +64,12 @@ app.UseStatusCodePages(async statusCodeContext =>
     {
         statusCodeContext.HttpContext.Response.Redirect("/Error/AccessDenied");
     }
-    else if (response.StatusCode == 404)
-    {
-        statusCodeContext.HttpContext.Response.Redirect("/Error/Index");
-    }
-    else
-        statusCodeContext.HttpContext.Response.Redirect("/Error/Errors");
+    //else if (response.StatusCode == 404)
+    //{
+    //    statusCodeContext.HttpContext.Response.Redirect("/Error/Index");
+    //}
+    //else
+    //    statusCodeContext.HttpContext.Response.Redirect("/Error/Errors");
 
 });
 app.UseEndpoints(endpoints =>

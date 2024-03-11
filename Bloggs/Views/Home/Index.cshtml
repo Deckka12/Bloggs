@@ -1,19 +1,31 @@
 ﻿<!DOCTYPE html>
 <html>
-@{
-    ViewBag.Title = "Главная";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<head>
+    <style>
+        .table {
+            width: 100%;
+        }
+
+            .table th, .table td {
+                padding: 8px;
+                text-align: left;
+            }
+
+        .content-col {
+            width: 200px; /* Примерная ширина столбца content */
+            word-break: break-all;
+        }
+    </style>
+</head>
 <body>
     <div class="container">
         <header>
-            <h1>Добро пожаловать в наш блог!</h1>
-            <p>Здесь вы можете найти интересные статьи на различные темы, написанные нашей командой опытных блогеров.</p>
+            <h1>Добро пожаловать!</h1>
+            <p>Наша история.</p>
+            <p>Наша история.</p>
         </header>
         <div class="row">
-            <div class="col-md-8">
-                <!-- Ваши статьи здесь -->
-            </div>
+            <
             <div class="col-md-4">
                 <h2>Последние обновления</h2>
                 <ul>
