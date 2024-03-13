@@ -9,68 +9,132 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Article.css" asp-append-version="true" />
-    
 </head>
 <body>
-    <header > 
-        <nav class="nav navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 nav">
-            <div class="container-fluid">
-                <a class="text navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Казачество</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class=" text nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Фото</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="History">История</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="text nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Contacts">Контакты</a>
-                        </li>
-                       
-                    </ul>
-                    <div class="float-right pt-1">
-                       
-                            <ul class="navbar-nav ms-auto">
-                                <li class="nav-item dropdown">
-                                    
-                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Привет,
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Users")">Пользователи</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Tags")">Теги</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Roles")">Роли</a>
-                                        <div class="dropdown-divider"></div>
-                                        <form method="post" asp-controller="Users" asp-action="Logout">
-                                            <button type="submit" class="dropdown-item">
-                                                Выход
-                                            </button>
-                                        </form>
-                                    </div>
+   @*  <div class="container d-flex flex-row">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <a class="text navbar-brand navbar-text d-block" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/terkv-gerb1.png" class="photo-items" />
+                </a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a class="text navbar-brand navbar-text">
+                    Терско-Гребенского <br />
+                    казачьего общества ТВКО, <br />
+                    Наурского станичного <br />
+                    казачьего общества ТГОКО
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <p>Наш Адрес</p>
+                <p><strong>ст. Наурская, ул. Моздокская д.45</strong></p>
+            </div>
+            <div class="col-md-6 text-center">
+                <p>Email</p>
+                <p><strong>naur.cazack@yandex.ru</strong></p>
+            </div>
+        </div>
+    </div> *@
+
+
+
+
+
+    <div class="container-fluid background">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <nav class="nav navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 nav d-flex justify-content-center">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <img src="~/terkv-gerb1.png" class="photo-items" />
+                        <ul class="navbar-nav flex-grow-1 nav-pills nav-pills-centered">
+                                <li class="nav-item">
+                                <a class=" text nav-link textcolor" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                                 </li>
+                            <li class="nav-item dropdown textcolor">
+                                <a class="nav-link dropdown-toggle textcolor " href="#" id="galleryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Галерея
+                                    </a>
+                                <ul class="dropdown-menu textcolor" aria-labelledby="galleryDropdown">
+                                        <li><a class="dropdown-item" asp-controller="Article" asp-action="Index">Фото</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Comment" asp-action="Index">Видео</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle textcolor " href="#" id="galleryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        О нас
+                                    </a>
+                                <ul class="dropdown-menu textcolor textcolor" aria-labelledby="galleryDropdown">
+                                        <li> <a class="dropdown-item " asp-area="" asp-controller="Article" asp-action="History">История</a></li>
+                                        <li><a class="dropdown-item" asp-controller="" asp-action="">Атаман</a></li>
+                                        <li><a class="dropdown-item" asp-controller="" asp-action="">Символика</a></li>
+                                    </ul>
+                                </li>
+                            <li class="nav-item dropdown textcolor">
+                                <a class="nav-link dropdown-toggle textcolor " href="#" id="galleryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Вера
+                                    </a>
+                                <ul class="dropdown-menu textcolor" aria-labelledby="galleryDropdown">
+                                    <li> <a class="text nav-link " asp-area="" asp-controller="Article" asp-action="History">Казачьи молитвы</a></li>
+
+                                    </ul>
+                                </li>
+                            <li class="nav-item textcolor">
+                                <a class="text nav-link textcolor" asp-area="" asp-controller="Article" asp-action="Contacts">Контакты</a>
+                                </li>
+
                             </ul>
-                        
+                        <div class="col-md-6 text-center">
+                            <a class="text navbar-brand navbar-text" style=" font-size: 14px; color:white ">
+                                Терско-Гребенского <br />
+                                казачьего общества ТВКО, <br />
+                                Наурского станичного <br />
+                                казачьего общества ТГОКО
+                            </a>
+                        </div>
+                            @*  <div class="float-right pt-1">
+
+                            <ul class="navbar-nav ms-auto">
+                            <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Привет,
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Index", "Users")">Пользователи</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Tags")">Теги</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Roles")">Роли</a>
+                            <div class="dropdown-divider"></div>
+                            <form method="post" asp-controller="Users" asp-action="Logout">
+                            <button type="submit" class="dropdown-item">
+                            Выход
+                            </button>
+                            </form>
+                            </div>
+                            </li>
+                            </ul>
+
 
                             <a asp-controller="Users" asp-action="Login" class=" bodys btn btn-primary ml-2 ">Войти</a>
-                 
-                    </div>
-                </div>
+
+                            </div> *@
+                        </div>
+                   
+                </nav>
             </div>
-        </nav>
-    </header>
+        </div>
+    </div>
     <div class="container">
-        <main role="main" >
+        <main role="main">
             @RenderBody()
-           
+
 
         </main>
     </div>

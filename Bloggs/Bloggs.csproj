@@ -44,4 +44,8 @@
     <ProjectReference Include="..\DBContex\DBContex.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Videos\" />
+  </ItemGroup>
+
 </Project>

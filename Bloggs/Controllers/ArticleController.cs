@@ -15,9 +15,11 @@ namespace Bloggs.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
+
         public ArticleController( IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
+
         }
 
         private readonly string _photosRoot = "wwwroot/Photos"; // Путь к вашим фотографиям в проекте

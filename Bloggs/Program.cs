@@ -8,20 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-/*builder.Services.AddDbContext<Context>();
-builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<Context>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<ITagRepository, TagRepository>();
-builder.Services.AddTransient<ICommentRepository, CommentRepository>();
-builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
-builder.Services.AddTransient<IArticleServices, ArticleServices>();
-builder.Services.AddTransient<IUserServices, UserServices>();
-builder.Services.AddTransient<IBlogRepository, BlogRepository>();*/
-// Добавляем PasswordHasher как сервис
+//builder.Services.AddDbContext<Context>();
+//builder.Services.AddIdentity<User, IdentityRole>()
+//                .AddEntityFrameworkStores<Context>();
+//builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.AddTransient<ITagRepository, TagRepository>();
+//builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+//builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
+//builder.Services.AddTransient<IArticleServices, ArticleServices>();
+//builder.Services.AddTransient<IUserServices, UserServices>();
+//builder.Services.AddTransient<IBlogRepository, BlogRepository>();
+//// Добавляем PasswordHasher как сервис
 //builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-//
-// Добавляем PasswordValidator как сервис
+////
+//// Добавляем PasswordValidator как сервис
 //builder.Services.AddScoped<PasswordValidator<User>>();
 
 builder.Services.AddControllersWithViews();

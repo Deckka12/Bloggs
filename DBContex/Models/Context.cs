@@ -17,7 +17,7 @@ namespace DBContex.Models
         public DbSet<Image> Images { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlServer(@"Server=DaniilAndrianov\SQLEXPRESS;Database=Blogss;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer(@"workstation id=Bloggs1.mssql.somee.com;packet size=4096;user id=Daniil111_SQLLogin_1;pwd=aaeeayvcxq;data source=Bloggs1.mssql.somee.com;persist security info=False;initial catalog=Bloggs1;TrustServerCertificate=True");
         }
         public Context (DbContextOptions<Context> options)
             : base(options) {

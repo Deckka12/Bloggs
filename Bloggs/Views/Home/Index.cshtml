@@ -1,46 +1,113 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
+    <!-- Стили слайдера -->
     <style>
-        .table {
-            width: 100%;
+        .slider-container {
+            width: auto; /* Слайды займут всю ширину страницы */
+            margin: 20px auto;
+           
+            overflow: hidden;
+            position: relative;
         }
 
-            .table th, .table td {
-                padding: 8px;
-                text-align: left;
+        .slides {
+            display: flex;
+        }
+
+        .slide {
+            min-width: 100vw; /* Слайд будет занимать всю ширину страницы */
+            padding: 20px; /* Добавим немного отступа внутри слайда */
+            box-sizing: border-box; /* Учтем внешние границы в ширине слайда */
+        }
+
+            .slide img {
+                width: 100%;
+                max-height: 300px; /* Максимальная высота изображения */
+                object-fit: cover; /* Изображение будет центрироваться и обрезаться при необходимости */
+                margin-bottom: 10px; /* Добавим немного отступа между изображением и описанием */
             }
 
-        .content-col {
-            width: 200px; /* Примерная ширина столбца content */
-            word-break: break-all;
+        .controls {
+            text-align: center;
+            margin-top: 10px;
         }
+
+        .photo-item {
+            margin: 5px;
+            max-width: 200px; /* Устанавливаем максимальную ширину изображения */
+            max-height: 150px; /* Выставляем высоту автоматически, чтобы изображение не искажалось */
+            cursor: pointer; /* Меняем указатель на руку, чтобы показать, что изображение кликабельно */
+        }
+
+      /*   body {
+            background: linear-gradient(to bottom, #cccccc, #333333);
+            margin: 0; /* Убираем отступы, чтобы градиент занимал всю страницу */
+            padding: 0;
+            color: white;
+        } */
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>Добро пожаловать!</h1>
-            <p>Наша история.</p>
-            <p>Наша история.</p>
-        </header>
-        <div class="row">
-            <
-            <div class="col-md-4">
-                <h2>Последние обновления</h2>
-                <ul>
-                    <li>
-                        <strong>30 декабря 2021</strong> - Добавлена новая статья о программировании на C#
-                    </li>
-                    <li>
-                        <strong>24 декабря 2021</strong> - Проведен конкурс "Лучшая новогодняя статья" среди наших авторов
-                    </li>
-                    <li>
-                        <strong>18 декабря 2021</strong> - Обновлен дизайн блога для лучшей навигации
-                    </li>
-                </ul>
+    <h2>Последние обновления</h2>
+    <div class="slider-container">
+        <div class="slides">
+            <div class="slide">
+                <img src="http://neizvestniy-geniy.ru/images/works/photo/2021/01/2217740_1.jpg" class="photo-item" alt="C# программирование">
+                <p>
+                    <strong>19 января 2024</strong> - Крещение на реке терек
+                Крещение будет проходить на тереке, местоположение первй спуск   
+                </p>
+            </div>
+            <div class="slide">
+                <img src="javascript.jpg" alt="JavaScript новые возможности">
+                <p>
+                    <strong>10 декабря 2021</strong> - Опубликована статья о новых возможностях JavaScript
+                    В этой статье мы рассматриваем последние обновления языка JavaScript, включая новые возможности ES6, ES7 и ES8. Мы также исследуем практические сценарии применения этих новых возможностей в современном web-разработке.
+                </p>
             </div>
         </div>
+       @*  <div class="controls">
+            <button onclick="showPrevSlide()">Назад</button>
+            <button onclick="stopSlideShow()">Остановить</button>
+            <button onclick="startSlideShow()">Старт</button>
+        </div> *@
     </div>
+
+    <script>
+        // Добавляем JavaScript для прокрутки слайдов
+        const slides = document.querySelector(".slides");
+        const slideWidth = window.innerWidth;
+        let currentIndex = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.style.transform = `translateX(-${index * slideWidth}px)`;
+            currentIndex = index;
+        }
+
+        function showPrevSlide() {
+            showSlide(0);
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                if (currentIndex < 1) {
+                    showSlide(currentIndex + 1);
+                } else {
+                    showSlide(0);
+                }
+            }, 2000); // Меняем слайд каждые 2 секунды
+        }
+
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        startSlideShow(); // Стартуем слайд-шоу при загрузке страницы
+    </script>
 </body>
+
 </html>

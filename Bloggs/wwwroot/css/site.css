@@ -16,12 +16,44 @@ footer {
         font-size: 16px;0
     }
 }
-
+.nav {
+    display: flex !important;
+    justify-content: center !important;
+}
+    .nav .nav-link {
+ 
+        color: white;
+    }
+.textcolor{
+    color: white !important;
+}
+.background {
+    background-color: #007cc2;
+    
+}
+.navbar-text {
+    word-wrap: break-word;
+}
+.nav-pills-centered {
+   
+}
+    .nav-pills-centered .nav-item {
+        margin: 0 25px; /* »змените отступ по вашему усмотрению */
+    }
+.nav-pills .nav-link {
+    
+    font-size: 18px;
+}
 html {
     position: relative;
     min-height: 100%;
 }
-
+.photo-items {
+    margin: 5px;
+    max-width: 85px; /* ”станавливаем максимальную ширину изображени€ */
+    max-height: 85px; /* ¬ыставл€ем высоту автоматически, чтобы изображение не искажалось */
+    cursor: pointer; /* ћен€ем указатель на руку, чтобы показать, что изображение кликабельно */
+}
 /*.bodys {
     background-color: #cd853f;
 }
@@ -35,7 +67,11 @@ body {
     width: 100%;
     height: 60px;
 }
-
+@media (min-width: 992px) {
+    .force-inline .col-md-6 {
+        float: left;
+    }
+}
 main {
     margin-bottom: 70px; /* добавьте отступ снизу, чтобы контент не перекрывал футер */
 }
@@ -64,3 +100,7 @@ main {
     }
 
 
+.border-bottom {
+    border-bottom: 1px solid #007cc2 !important;
+    border-top: 1px solid #007cc2 !important;
+}

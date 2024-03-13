@@ -1,13 +1,18 @@
-﻿@model IEnumerable<DBContex.Models.Comment>
-@foreach (var article in Model)
-{
-    <div class="form boxShadowLogin">
-
-        <h1>@article.Author.UserName</h1>
-        <h3>@article.Text</h3>
-            <h6>@article.PublicationDate.ToShortDateString()</h6>
-            <h6>@article.Author.UserName</h6>
-
-
-    </div>
-}
+﻿@model string[]
+<style>
+    body {
+        background: linear-gradient(to bottom, #cccccc, #333333);
+        margin: 0; /* Убираем отступы, чтобы градиент занимал всю страницу */
+        padding: 0;
+        color: white;
+    }</style>
+<div class="folder-list text">
+    @foreach (var folder in Model)
+    {
+        <div class="folder-item text">
+            <a asp-controller="Comment" asp-action="ShowVideos" asp-route-folderName="@folder">
+                Показать видео @folder
+            </a>
+        </div>
+    }
+</div>

@@ -1,13 +1,19 @@
 ﻿@model string[]
 
-<h2 class="text">:</h2>
 
+<style>
+    body {
+        background: linear-gradient(to bottom, #cccccc, #333333);
+        margin: 0; /* Убираем отступы, чтобы градиент занимал всю страницу */
+        padding: 0;
+        color: white;
+    }</style>
 <div class="folder-list text">
     @foreach (var folder in Model)
     {
         <div class="folder-item text">
             <a asp-controller="Article" asp-action="ShowPhotos" asp-route-folderName="@folder">
-                Show Photos from @folder
+               Показать фото @folder
             </a>
         </div>
     }
