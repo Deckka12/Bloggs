@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>@ViewData["Title"] - Личный блог</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -43,15 +43,17 @@
 
 
 
-    <div class="container-fluid background">
+    <div class="container-fluid background shadow">
         <div class="row justify-content-center">
             <div class="col-12">
                 <nav class="nav navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 nav d-flex justify-content-center">
+                    <img src="~/terkv-gerb1.png" class="photo-items" />
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <img src="~/terkv-gerb1.png" class="photo-items" />
+                       
+                        
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1 nav-pills nav-pills-centered">
                                 <li class="nav-item">
                                 <a class=" text nav-link textcolor" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
@@ -81,7 +83,7 @@
                                     </a>
                                 <ul class="dropdown-menu textcolor" aria-labelledby="galleryDropdown">
                                     <li> <a class="text nav-link " asp-area="" asp-controller="Article" asp-action="History">Казачьи молитвы</a></li>
-
+                                    <li> <a class="text nav-link " asp-area="" asp-controller="Faith" asp-action="Calendar">Календарь 2024</a></li>
                                     </ul>
                                 </li>
                             <li class="nav-item textcolor">

@@ -98,7 +98,10 @@ main {
         color: #1e2125;
         box-shadow: none;
     }
-
+.shadow {
+    /* ¬аши текущие стили */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1); /* Ёффект тени: горизонтальное смещение, вертикальное смещение, размытие, цвет */
+}
 
 .border-bottom {
     border-bottom: 1px solid #007cc2 !important;

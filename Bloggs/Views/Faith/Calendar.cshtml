@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Стили слайдера -->
+    <style>
+        .photo-item {
+            max-width: 7500px; /* Устанавливаем максимальную ширину изображения */
+            max-height: 1000px; /* Выставляем высоту автоматически, чтобы изображение не искажалось */
+            cursor: pointer; /* Меняем указатель на руку, чтобы показать, что изображение кликабельно */
+            display: flex; /* Используем flex-контейнер */
+            justify-content: center; /* Центрируем содержимое по горизонтали */
+            align-items: center; /* Центрируем содержимое по вертикали */
+            text-align: center; /* Размещаем текст внутри центрированного блока */
+        }
+    </style>
+</head>
+
+<body>
+   
+    <div class="slide-container">
+        <div class="slide" >
+            <h1>Православный календарь</h1>
+            <img src="~/1PkR-x5z8sw.jpg" class=" photo-item" alt="Православный календарь">
+        </div>
+    </div>
+    <script>
+        function openModal(imageUrl) {
+            // Создаем модальное окно
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+
+            // Создаем изображение в модальном окне
+            var image = document.createElement('img');
+            image.src = imageUrl;
+            image.style.maxWidth = '80%';
+            image.style.maxHeight = '80%';
+
+            // Добавляем изображение в модальное окно
+            modal.appendChild(image);
+
+            // Закрыть модальное окно при клике
+            modal.onclick = function () {
+                modal.remove();
+            };
+
+            // Добавляем модальное окно в тело страницы
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+
+</html>
